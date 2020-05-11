@@ -12,9 +12,12 @@
     "dependencies": {
         "@smartweb/vue-flash-message": "^0.6.2",
         "axios": "^0.19.2",
+        "babel-eslint": "^10.1.0",
         "bulma": "^0.8.2",
         "bulma-badge": "^3.0.1",
         "core-js": "^3.6.4",
+        "eslint": "^7.0.0",
+        "eslint-plugin-vue": "^6.2.2",
         "fibers": "^5.0.0",
         "jsonwebtoken": "^8.5.1",
         "laravel-echo": "^1.7.0",
@@ -38,6 +41,7 @@
         "lodash": "^4.17.13",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.15.2",
-        "sass-loader": "^8.0.0"
+        "sass-loader": "^8.0.0",
+        "vue-template-compiler": "^2.6.11"
     }
 }
