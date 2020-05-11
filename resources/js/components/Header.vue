@@ -35,6 +35,14 @@
                 </a>
               </li>
               <li
+                class=" navbar-item">
+                <router-link :to="{ name:'login' }" class="mega-link">
+                  <!-- <span class="mega-icon"><i class="fa fa-sign-in-alt"></i></span> -->
+                  <div class="menu-text-icon">Login</div>
+                </router-link>
+              </li>
+              
+              <li
                 class="one-icon mega-li navbar-item"
                 data-target="user"
               >
@@ -94,7 +102,8 @@ computed:{
     return []
   },
   userImage(){
-    return 'http://laravel.test/storage/users_images/nouser.png'
+    // return 'http://laravel.test/users_images/nouser.png'
+    return this.$store.getters['auth/serverUrl'] + '/users_images/nouser.png'
   }
 },
 methods:{

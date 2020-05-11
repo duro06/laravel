@@ -15,12 +15,44 @@ const routes=[
     name: "home",
     component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue"),
     meta: {
-      loggedIn: true,
-      waitingVerified: false,
-      visitor: false,
-      verified: true
+     name:'Home'
     }
-    }
+  },
+  {
+    path: "/auth",
+    name: "auth",
+    component: () => import(/* webpackChunkName: "auth" */ "./views/auth/index.vue"),
+    meta: {
+     name:'auth'
+    },
+    children:[
+      {
+        path: "login",
+        name: "login",
+        component: () => import(/* webpackChunkName: "login" */ "./views/auth/Login.vue"),
+        meta: {
+          visitor: true,
+        }
+      },
+      {
+        path: "register",
+        name: "register",
+        component: () => import(/* webpackChunkName: "register" */ "./views/auth/Register.vue"),
+        meta: {
+          visitor: true,
+        }
+      },
+      {
+        path: "logout",
+        name: "logout",
+        component: () => import(/* webpackChunkName: "logout" */ "./views/auth/Logout.vue"),
+        meta: {
+          loggedIn: true,
+        }
+      },
+
+    ]
+  },
 ]
 const router=new Router({
  mode:'history',

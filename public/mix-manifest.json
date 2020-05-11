@@ -1,6 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/auth.js": "/auth.js",
+    "/header.js": "/header.js",
     "/home.js": "/home.js",
-    "/header.js": "/header.js"
+    "/login.js": "/login.js",
+    "/logout.js": "/logout.js",
+    "/register.js": "/register.js",
+    "/vendors~login.js": "/vendors~login.js"
 }
