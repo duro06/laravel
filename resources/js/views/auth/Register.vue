@@ -217,13 +217,13 @@ export default {
     return {
       // data User
       user: {
-        name: 'wawan',
-        email: 'wawan@gmail.com',
-        alamat: 'dihatimu',
-        telepon: '008098809',
-        role: 'Admin',
-        password: 'asdfgh',
-        password_confirmation: 'asdfgh'
+        name: '',
+        email: '',
+        alamat: '',
+        telepon: '',
+        role: '',
+        password: '',
+        password_confirmation: ''
       },
       // pilihan Role
       levels: [

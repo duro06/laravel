@@ -135,7 +135,7 @@ export default {
       user: {
         email: '',
         password: '',
-        remember: false
+        device_name: navigator.userAgent
       },
       errors: {}, // belum dipakai, ga tau fungsinya juga sih
       disable: false, //disable/enable button login
@@ -299,6 +299,7 @@ export default {
     },
 
     submitForm: async function() {
+      console.log(navigator.userAgent);
       // shortcut untuk this
       // const vm = this;
       //jika email dan password sudah di validai
@@ -306,11 +307,18 @@ export default {
         this.loading = 'is-loading'; // button spinner on
         this.disable = true; //disable button
         try {
+          // eslint-disable-next-line no-unused-vars
           const response = await auth.login(this.user); // paggil fungsi login dari auth dengan membawa data user
           this.loading = ''; // button spinner off
           this.disable = false; // button enable
           this.errors = {}; // sepertinya belum berfungsi membesihkan error dengan baik dan benar
-          this.findRole(response.token_scope); // panggil fungsi redirect sesuai role
+          console.log('res', response);
+          // if (status == 200) {
+          //   this.$store.dispatch('auth/getUser');
+          this.$router.replace(this.$route.query.redirect || { name: 'home' }, () => {});
+          // }
+
+          // this.findRole(response.token_scope); // panggil fungsi redirect sesuai role
           // setTimeout(function() {
           //   denger;
           //   // listen to laravel Echo
@@ -332,6 +340,15 @@ export default {
             switch (error.response.status) {
               case 422:
                 this.errors = error.response.data.errors;
+                if (error.response.data.email) {
+                  this.mail = error.response.data.email[0];
+                  this.mailMessage = 'inherit';
+                }
+                this.flashMessage.error({
+                  message: error.response.data.message,
+                  time: 5000
+                });
+
                 break;
               case 500:
                 this.flashMessage.error({

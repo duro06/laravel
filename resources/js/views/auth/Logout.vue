@@ -1,16 +1,13 @@
 <template>
   <div class="logout">
-   logout
+    logout
   </div>
 </template>
 
 <script>
 export default {
- name:'logout'
-
-}
+  name: 'logout'
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -38,6 +38,11 @@
                   <div class="menu-text-icon">Login</div>
                 </router-link>
               </li>
+              <li class=" navbar-item">
+                <a href="javascript:void(0)" class="mega-link" @click.prevent="logout">
+                  <div class="menu-text-icon">Logout</div>
+                </a>
+              </li>
 
               <li class="one-icon mega-li navbar-item" data-target="user">
                 <a href="javascript:void(0)" class="mega-link">
@@ -78,6 +83,7 @@
 </template>
 
 <script>
+import * as auth from '../services/auth_service';
 export default {
   name: 'headnav',
   data() {
@@ -98,6 +104,9 @@ export default {
     hideSidebar: function(e) {
       e.preventDefault();
       document.querySelector('body').classList.toggle('sb-sidenav-toggled');
+    },
+    logout() {
+      auth.logout();
     }
   }
 };

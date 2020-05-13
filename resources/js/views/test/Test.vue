@@ -9,10 +9,13 @@
     />
 
     <button class="button is-success" @click="kumpul">coba</button>
+    <button class="button is-success" @click="login">Login Test</button>
+    <button class="button is-success" @click="user">Get user</button>
   </div>
 </template>
 
 <script>
+import { http } from '../../services/http_service';
 export default {
   name: 'test',
   components: {
@@ -43,6 +46,21 @@ export default {
         this.mailError = '';
         this.inputError = '';
       }
+    },
+    login() {
+      return new Promise(() => {
+        http()
+          .get('/sanctum/csrf-cookie')
+          .then(res => {
+            console.log('res', res);
+          })
+          .catch(err => {
+            console.log('err', err);
+          });
+      });
+    },
+    user() {
+      this.$store.dispatch('user/getUser');
     }
   }
 };
