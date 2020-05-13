@@ -1,3 +1,4 @@
+import {http} from '../services/http_service'
 const state = () => ({
 server:'http://laravel.test',
 cookies:''
@@ -5,7 +6,22 @@ cookies:''
 
 const mutations = {}
 
-const actions = {}
+const actions = {
+ register(context,data){
+  console.log('data',data)
+  return new Promise((resolve,reject)=>{
+   http().post('auth/register', data)
+   .then(res=>{
+    console.log(res)
+    resolve(res)
+   })
+   .catch(err=>{
+    reject(err)
+   })
+
+  })
+ }
+}
 
 const getters ={
  loggedIn: state  => state.cookies,

@@ -10,8 +10,9 @@ module.exports = {
   extends: [
     "plugin:vue/essential",
     "eslint:recommended",
-      
+    "@vue/prettier"
   ],
+  plugins:['prettier'],
   // add your custom rules here
   rules: {
     'eqeqeq':'off',

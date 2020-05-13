@@ -1,15 +1,11 @@
 <template>
   <div class="home">
-   selamat datang
+    selamat datang
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>
