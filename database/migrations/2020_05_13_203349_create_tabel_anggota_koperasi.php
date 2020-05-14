@@ -21,7 +21,8 @@ class CreateTabelAnggotaKoperasi extends Migration
             $table->string('role')->default('anggota');            
             $table->string('image');            
             $table->string('telepon');            
-            $table->string('status');            
+            $table->integer('status');
+            $table->float('simpanan_pokok',10,2);
             $table->string('id_kelompok');            
             $table->timestamps();
         });
