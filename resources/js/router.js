@@ -15,7 +15,9 @@ const routes = [
     name: 'home',
     component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
     meta: {
-      name: 'Home'
+      name: 'Home',
+      loggedIn: true,
+      visitor: true
     }
   },
   {
@@ -29,9 +31,37 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import(/* webpackChunkName: "test" */ './views/Dashboard.vue'),
+    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue'),
     meta: {
       name: 'dashboard',
+      loggedIn: true
+    }
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import(/* webpackChunkName: "about" */ './views/about/About.vue'),
+    meta: {
+      name: 'about',
+      loggedIn: true
+    }
+  },
+  {
+    path: '/anggota',
+    name: 'anggota',
+    component: () =>
+      import(/* webpackChunkName: "daftar-anggota" */ './views/anggota/DaftarAnggota.vue'),
+    meta: {
+      name: 'daftar-anggota',
+      loggedIn: true
+    }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import(/* webpackChunkName: "profile" */ './views/profile/Profile.vue'),
+    meta: {
+      name: 'profile',
       loggedIn: true
     }
   },

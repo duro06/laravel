@@ -14,7 +14,7 @@ class ModifikasiUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('id_koperasi',100)->after('id')->dafault('null');
+            $table->string('id_koperasi',100)->after('id')->nullable();
         });
     }
 

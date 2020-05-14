@@ -14,7 +14,6 @@ const actions = {
       http()
         .post('auth/register', data)
         .then(res => {
-          console.log(res);
           resolve(res);
         })
         .catch(err => {

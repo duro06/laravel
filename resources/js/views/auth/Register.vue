@@ -310,7 +310,7 @@ export default {
             });
             vm.loading = ''; // button spinner
             this.errors = [];
-            this.$router.replace({ name: 'waiting' }, () => {}); // arahkan ke halaman waiting untuk menuggu verifikasi
+            this.$router.replace({ name: 'home' }, () => {}); // arahkan ke halaman waiting untuk menuggu verifikasi
           })
           .catch(error => {
             if (error) {

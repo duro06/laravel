@@ -1,6 +1,6 @@
 <template>
-  <div class="dashboard">
-    halaman dashboard
+  <div class="anngota">
+    Daftar anggota
   </div>
 </template>
 

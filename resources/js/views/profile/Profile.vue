@@ -1,6 +1,6 @@
 <template>
-  <div class="dashboard">
-    halaman dashboard
+  <div class="profile">
+    Halaman Profile
   </div>
 </template>
 

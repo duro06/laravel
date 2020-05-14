@@ -1,27 +1,49 @@
 <template>
   <div class="header">
     <nav class="navbar has-shadow is-fixed-top" role="navigation">
-      <button v-on:click="hideSidebar" class="button   " id="sidebarToggle">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <div class="container is-fullwidth">
-        <!-- <div class="navbar-start" :style="{ display: khusus }"> 
-          <div class="navbar-brand">
-            <div class="mega-ul">
-              <div class="one-icon mega-li navbar-item">
-                 <a @click.prevent="goBack" class="mega-link">
-                  <span class="mega-icon"
-                    ><i class="fas fa-arrow-left"></i
-                  ></span>
-                </a> 
-              </div>
+      <div class="navbar-menu is-active">
+        <div class="avatar has-text-centered">
+          <img :src="logo" alt="logo" />
+        </div>
+        <div class="navbar-start">
+          <div class="mega-ul navbar-menu">
+            <div :class="['navbar-item', currentPage.includes('home') ? activeClass : '']">
+              <router-link :to="{ name: 'home' }" class="mega-link" exact>
+                <div class="menu-text-icon">Home</div>
+              </router-link>
             </div>
-          </div> 
-        </div> -->
-        <!-- <div class="navbar-end" :style="{ display: umum }"> -->
-        <div class="navbar-end">
-          <div class="navbar-brand is-pulled-right">
+          </div>
+          <div class="mega-ul navbar-menu">
+            <div class="navbar-item" v-if="loggedIn">
+              <router-link :to="{ name: 'dashboard' }" class="mega-link" exact>
+                <div class="menu-text-icon">Dashboard</div>
+              </router-link>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable" v-if="loggedIn">
+            <a class="navbar-link menu-text-icon" exact>
+              Menu
+            </a>
+
+            <div class="navbar-dropdown">
+              <router-link :to="{ name: 'about' }" class="navbar-item menu-text-icon" exact>
+                About
+              </router-link>
+              <router-link :to="{ name: 'anggota' }" class="navbar-item menu-text-icon" exact>
+                Daftar Anggota
+              </router-link>
+              <router-link to="" class="navbar-item menu-text-icon" exact>
+                Contact
+              </router-link>
+              <hr class="navbar-divider" />
+              <router-link to="" class="navbar-item menu-text-icon" exact>
+                Report an issue
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-brand">
+          <div class="navbar-end">
             <ul class="mega-ul ">
               <!-- @click="tampil" -->
               <li class="one-icon mega-li navbar-item" data-target="notif">
@@ -32,31 +54,41 @@
                   }}</span> -->
                 </a>
               </li>
-              <li class=" navbar-item" v-if="!loggedIn">
-                <router-link :to="{ name: 'login' }" class="mega-link">
-                  <!-- <span class="mega-icon"><i class="fa fa-sign-in-alt"></i></span> -->
+              <li
+                :class="[' navbar-item', currentPage.includes('login') ? activeClass : '']"
+                v-if="!loggedIn"
+              >
+                <router-link :to="{ name: 'login' }" class="mega-link" exact>
                   <div class="menu-text-icon">Login</div>
                 </router-link>
               </li>
-              <li class=" navbar-item" v-if="loggedIn">
-                <a href="javascript:void(0)" class="mega-link" @click.prevent="logout">
-                  <div class="menu-text-icon">Logout</div>
-                </a>
-              </li>
 
-              <li class="one-icon mega-li navbar-item" data-target="user">
-                <a href="javascript:void(0)" class="mega-link">
+              <li class="one-icon mega-li navbar-item has-dropdown is-hoverable" v-if="loggedIn">
+                <a href="javascript:void(0)" class="mega-link" exact>
                   <span class="mega-image">
                     <img :src="userImage" alt="example image" />
                   </span>
                 </a>
+                <div class="navbar-dropdown user">
+                  <router-link :to="{ name: 'profile' }" class="navbar-item menu-text-icon">
+                    Profile
+                  </router-link>
+
+                  <hr class="navbar-divider" />
+
+                  <a class="navbar-item menu-text-icon" @click.prevent="logout" exact>
+                    <div class="menu-text-icon">Logout</div>
+                  </a>
+                </div>
               </li>
             </ul>
           </div>
         </div>
       </div>
     </nav>
-    <div id="user" class="navbar-menu"></div>
+    <div id="user" class="navbar-menu" :class="{ 'is-active': userActive }">
+      <div class="abu has-text-centered"></div>
+    </div>
     <div id="notif" class="navbar-menu" :class="{ 'is-active': isActive }">
       <!-- <div class="abu has-text-centered">
         <a
@@ -89,7 +121,9 @@ export default {
   data() {
     return {
       isActive: false,
-      disable: false
+      userActive: false,
+      disable: false,
+      activeClass: 'active'
     };
   },
   computed: {
@@ -102,6 +136,12 @@ export default {
     },
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
+    },
+    currentPage() {
+      return this.$route.path;
+    },
+    logo() {
+      return this.$store.getters['auth/storageUrl'] + '/galleries_images/logo.png';
     }
   },
   methods: {
@@ -111,13 +151,30 @@ export default {
     },
     logout() {
       this.disable = true;
+      console.log('logout');
       auth.logout().then(() => {
         this.disable = false;
         location.reload();
       });
+    },
+    tampilUser() {
+      this.userActive = !this.userActive;
     }
   }
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.avatar {
+  img {
+    height: 45px;
+    width: auto;
+  }
+  margin-top: 5px;
+  margin-left: 20px;
+  margin-right: 10px;
+}
+.user {
+  margin-left: -70px;
+}
+</style>
