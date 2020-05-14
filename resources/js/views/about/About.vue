@@ -19,15 +19,21 @@
     </p>
     <h1><b>Tentang Koperasi Wanita Teratai</b></h1>
     <p>
-      <b>Kopwan Teratai</b> pertama kali didirikan pada tahun 2009. Pertama kali didirikan dengan
-      nama Koppuan Teratai. Akronim dari Koperasi Perempuan, yang kemudian nama Koppuan berubah
-      menjadi Kopwan, akronim dari Koperasi Wanita.
+      <b>Kopwan Teratai</b> pertama kali didirikan pada tahun 2009 di desa Bucor Kulon, Kecamatan
+      Pakuniran, Kabupaten Probolinggo. Pertama kali didirikan dengan nama Koppuan Teratai. Akronim
+      dari Koperasi Perempuan, yang kemudian nama Koppuan berubah menjadi Kopwan, akronim dari
+      Koperasi Wanita.
     </p>
     <p>
       Jika diperhatikan dari nama, maka dapat disimpilkan bahwa Koperasi ini beranggotakan para
       wanita. Sebagaimana ini sejalan dengan tujuan pemerintah Provinsi Jawa Timur saat itu. Yaitu
       agar para wanita di Jawa Timur memiliki ketahanan Ekonomi dan bisa bersama dengan suami
       membangun ekonomi keluarga.
+    </p>
+    <p>
+      Kopwan Teratai adalah <b>Koperasi Simpan Pinjam</b>. Hal ini dikarenakan masalah paling
+      mendasar yang dirasa dibutuhkan masyarakan desa Bucor Kulon. Namun tidak menutup kemungkinan
+      akan berkembang di kemudian hari
     </p>
   </div>
 </template>
