@@ -18,8 +18,8 @@ const actions = {
       http()
         .get('/user')
         .then(res => {
-          console.log(res);
           context.commit('setUser', res.data);
+          location.reload();
         });
     });
   },

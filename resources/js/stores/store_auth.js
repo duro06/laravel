@@ -1,7 +1,8 @@
 import { http } from '../services/http_service';
 const state = () => ({
   server: 'http://laravel.test',
-  cookies: ''
+  cookies: '',
+  token: localStorage.getItem('token') || null
 });
 
 const mutations = {};
@@ -24,7 +25,9 @@ const actions = {
 };
 
 const getters = {
-  loggedIn: state => state.cookies,
+  loggedIn(state) {
+    return state.token !== null;
+  },
   apiUrl(state) {
     return state.server + '/api';
   },

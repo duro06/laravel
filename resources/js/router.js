@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import store from './store';
 
 Vue.use(Router);
 const routes = [
@@ -26,6 +27,15 @@ const routes = [
     }
   },
   {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import(/* webpackChunkName: "test" */ './views/Dashboard.vue'),
+    meta: {
+      name: 'dashboard',
+      loggedIn: true
+    }
+  },
+  {
     path: '/auth',
     name: 'auth',
     component: () => import(/* webpackChunkName: "auth" */ './views/auth/index.vue'),
@@ -48,14 +58,6 @@ const routes = [
         meta: {
           visitor: true
         }
-      },
-      {
-        path: 'logout',
-        name: 'logout',
-        component: () => import(/* webpackChunkName: "logout" */ './views/auth/Logout.vue'),
-        meta: {
-          loggedIn: true
-        }
       }
     ]
   }
@@ -67,5 +69,20 @@ const router = new Router({
 });
 
 // router beforeach pleced here
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.loggedIn)) {
+    if (store.getters['auth/loggedIn']) {
+      next();
+    } else {
+      next({ name: 'login' });
+    }
+  } else if (to.matched.some(record => record.meta.visitor)) {
+    if (store.getters['auth/loggedIn']) {
+      next({ name: 'dashboard' });
+    } else {
+      next();
+    }
+  }
+});
 
 export default router;

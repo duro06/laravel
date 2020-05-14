@@ -11,6 +11,7 @@
     <button class="button is-success" @click="kumpul">coba</button>
     <button class="button is-success" @click="login">Login Test</button>
     <button class="button is-success" @click="user">Get user</button>
+    <button class="button is-success" @click="logged">test login getters</button>
   </div>
 </template>
 
@@ -61,6 +62,9 @@ export default {
     },
     user() {
       this.$store.dispatch('user/getUser');
+    },
+    logged() {
+      console.log('loggedIn', this.$store.getters['auth/loggedIn']);
     }
   }
 };

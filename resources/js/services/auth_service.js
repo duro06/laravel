@@ -8,17 +8,18 @@ export function login(data) {
     .then(res => {
       setToken(res.data);
       store.dispatch('user/getUser');
-      console.log(res);
     });
 }
 
 export function logout() {
-  return http()
-    .post('/auth/logout')
-    .then(res => {
-      store.dispatch('user/removeUser');
-      console.log(res);
-    });
+  return new Promise(resolve => {
+    http()
+      .post('/auth/logout')
+      .then(res => {
+        store.dispatch('user/removeUser');
+        resolve(res);
+      });
+  });
 }
 
 function setToken(data) {

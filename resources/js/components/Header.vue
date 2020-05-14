@@ -32,13 +32,13 @@
                   }}</span> -->
                 </a>
               </li>
-              <li class=" navbar-item">
+              <li class=" navbar-item" v-if="!loggedIn">
                 <router-link :to="{ name: 'login' }" class="mega-link">
                   <!-- <span class="mega-icon"><i class="fa fa-sign-in-alt"></i></span> -->
                   <div class="menu-text-icon">Login</div>
                 </router-link>
               </li>
-              <li class=" navbar-item">
+              <li class=" navbar-item" v-if="loggedIn">
                 <a href="javascript:void(0)" class="mega-link" @click.prevent="logout">
                   <div class="menu-text-icon">Logout</div>
                 </a>
@@ -88,7 +88,8 @@ export default {
   name: 'headnav',
   data() {
     return {
-      isActive: false
+      isActive: false,
+      disable: false
     };
   },
   computed: {
@@ -98,6 +99,9 @@ export default {
     userImage() {
       // return 'http://laravel.test/users_images/nouser.png'
       return this.$store.getters['auth/serverUrl'] + '/users_images/nouser.png';
+    },
+    loggedIn() {
+      return this.$store.getters['auth/loggedIn'];
     }
   },
   methods: {
@@ -106,7 +110,11 @@ export default {
       document.querySelector('body').classList.toggle('sb-sidenav-toggled');
     },
     logout() {
-      auth.logout();
+      this.disable = true;
+      auth.logout().then(() => {
+        this.disable = false;
+        location.reload();
+      });
     }
   }
 };
