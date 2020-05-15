@@ -1,3 +1,20 @@
+.pemberitahuan {
+  font-size: 12px;
+  font-style: italic;
+  color: grey;
+}
+.icon-dibutton {
+  margin-right: 5px;
+}
+
+.judul {
+  margin-left: 40px;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+.canvas {
+  margin: 10px 20px;
+}
 .mega-image img {
   -webkit-border-radius: 80px;
   -moz-border-radius: 80px;
@@ -84,7 +101,7 @@
 }
 .warna-tema {
   color: white !important;
-  background-color: #42b549 !important;
+  background-color: #00913e !important;
 }
 /* navbar */
 .navbar {
