@@ -25,7 +25,9 @@ const routes = [
     name: 'test',
     component: () => import(/* webpackChunkName: "test" */ './views/test/Test.vue'),
     meta: {
-      name: 'test'
+      name: 'test',
+      loggedIn: true,
+      visitor: true
     }
   },
   {
@@ -54,7 +56,26 @@ const routes = [
     meta: {
       name: 'daftar-anggota',
       loggedIn: true
-    }
+    },
+    children: [
+      {
+        path: 'detail/:id',
+        name: 'detail',
+        component: () =>
+          import(/* webpackChunkName: "detail-anggota" */ './views/anggota/DetailAnggota.vue'),
+        meta: {
+          loggedIn: true
+        }
+      }
+      // {
+      //   path: 'register',
+      //   name: 'register',
+      //   component: () => import(/* webpackChunkName: "register" */ './views/anggota/Register.vue'),
+      //   meta: {
+      //     loggedIn: true
+      //   }
+      // }
+    ]
   },
   {
     path: '/profile',

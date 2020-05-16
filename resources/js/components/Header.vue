@@ -20,18 +20,45 @@
               </router-link>
             </div>
           </div>
+          <div class="mega-ul navbar-menu">
+            <div class="navbar-item has-dropdown is-hoverable" v-if="loggedIn">
+              <a href="javascript:void(0)" class="navbar-link menu-text-icon" exact>
+                <div class="menu-text-icon">Daftar Anggota</div>
+              </a>
+              <div class="navbar-dropdown">
+                <a
+                  href="javascript:void(0)"
+                  class="navbar-item menu-text-icon"
+                  @click.prevent="anggotaAktif"
+                  exact
+                >
+                  <div class="menu-text-icon">Anggota Aktif</div>
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  class="navbar-item menu-text-icon"
+                  @click.prevent="anggotaBelum"
+                  exact
+                >
+                  <div class="menu-text-icon">Anggota Belum Aktif</div>
+                </a>
+                <a
+                  href="javascript:void(0)"
+                  class="navbar-item menu-text-icon"
+                  @click.prevent="anggotaBerhenti"
+                  exact
+                >
+                  <div class="menu-text-icon">Anggota Berhenti</div>
+                </a>
+              </div>
+            </div>
+          </div>
           <div class="navbar-item has-dropdown is-hoverable" v-if="loggedIn">
             <a class="navbar-link menu-text-icon" exact>
               Menu
             </a>
 
             <div class="navbar-dropdown">
-              <router-link :to="{ name: 'about' }" class="navbar-item menu-text-icon" exact>
-                About
-              </router-link>
-              <router-link :to="{ name: 'anggota' }" class="navbar-item menu-text-icon" exact>
-                Daftar Anggota
-              </router-link>
               <router-link to="" class="navbar-item menu-text-icon" exact>
                 Contact
               </router-link>
@@ -81,6 +108,11 @@
                   </a>
                 </div>
               </li>
+              <li class="one-icon mega-li navbar-item">
+                <router-link :to="{ name: 'about' }" class="navbar-item menu-text-icon" exact>
+                  Tentang Koperasi
+                </router-link>
+              </li>
             </ul>
           </div>
         </div>
@@ -115,6 +147,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import * as auth from '../services/auth_service';
 export default {
   name: 'headnav',
@@ -145,6 +178,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('member', ['changeStatus', 'getMember']),
     hideSidebar: function(e) {
       e.preventDefault();
       document.querySelector('body').classList.toggle('sb-sidenav-toggled');
@@ -159,6 +193,21 @@ export default {
     },
     tampilUser() {
       this.userActive = !this.userActive;
+    },
+    anggotaBelum() {
+      this.changeStatus(1);
+      this.$router.replace(this.$route.query.redirect || { name: 'anggota' }, () => {});
+      this.getMember();
+    },
+    anggotaAktif() {
+      this.changeStatus(2);
+      this.$router.replace(this.$route.query.redirect || { name: 'anggota' }, () => {});
+      this.getMember();
+    },
+    anggotaBerhenti() {
+      this.changeStatus(3);
+      this.$router.replace(this.$route.query.redirect || { name: 'anggota' }, () => {});
+      this.getMember();
     }
   }
 };
@@ -175,6 +224,6 @@ export default {
   margin-right: 10px;
 }
 .user {
-  margin-left: -70px;
+  margin-left: 0px;
 }
 </style>

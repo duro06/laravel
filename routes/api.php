@@ -27,8 +27,15 @@ Route::group(['prefix' => 'auth'], function() {
     
     // Route::post('addtoreg', 'RegistrationController@addtoreg'); // ini alamat untuk user selain root dan admin (api/auth/addtoreg)
 
-    // Route::group(['middleware' => 'auth:api'], function () {
+    // Route::group(['middleware' => 'auth:sanctum'], function () {
     //     Route::get('logout', 'AuthController@logout');
     //     Route::get('profile', 'AuthController@profile');
     // });
+});
+
+Route::group(['prefix'=>'member'], function(){
+    Route::group(['middleware' => 'auth:sanctum'], function (){
+        Route::get('anggota', 'Members\MemberController@getMembers');
+        Route::post('tambah', 'Members\MemberController@store');
+    });
 });

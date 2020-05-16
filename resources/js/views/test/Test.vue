@@ -61,10 +61,10 @@ export default {
       });
     },
     user() {
-      this.$store.dispatch('user/getUser');
+      this.$store.dispatch('member/getAnggota');
     },
     logged() {
-      console.log('loggedIn', this.$store.getters['auth/loggedIn']);
+      console.log('anggota', this.$store.state.member.anggota);
     }
   }
 };

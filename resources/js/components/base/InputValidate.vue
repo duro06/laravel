@@ -1,27 +1,35 @@
 <template>
-  <div class="field">
-    <p class="help align-left is-danger" :style="{ display: hasError }">
-      {{ error }}
-    </p>
-    <p class="control has-icons-left has-icons-right">
-      <input
-        @change="validate"
-        :class="['input', mailClass]"
-        :type="tipe"
-        :placeholder="placeholder"
-        data-lpignore="true"
-        v-model="input"
-      />
-      <span v-if="iconLeft" class="icon is-small is-left">
-        <i :class="['fas', iconLeft]"></i>
-      </span>
-      <span v-if="iconRight" class="icon is-small is-right" :style="{ visibility: visible }">
-        <i :class="['fas', iconRight]"></i>
-      </span>
-    </p>
-    <p :class="['help', 'align-left', mailClass]" :style="{ visibility: visible }">
-      {{ message }}
-    </p>
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">{{ label }}</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="help align-left is-danger" :style="{ display: hasError }">
+          {{ error }}
+        </p>
+        <span class="pemberitahuan" v-if="pesan"> <B>*</B> {{ pesan }} </span>
+        <p class="control has-icons-left has-icons-right">
+          <input
+            @change="validate"
+            :class="['input', mailClass]"
+            :type="tipe"
+            :placeholder="placeholder"
+            data-lpignore="true"
+            v-model="input"
+          />
+          <span v-if="iconLeft" class="icon is-small is-left">
+            <i :class="['fas', iconLeft]"></i>
+          </span>
+          <span v-if="iconRight" class="icon is-small is-right" :style="{ visibility: visible }">
+            <i :class="['fas', iconRight]"></i>
+          </span>
+        </p>
+        <p :class="['help', 'align-left', mailClass]" :style="{ visibility: visible }">
+          {{ message }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,6 +37,10 @@
 export default {
   name: 'input-validation',
   props: {
+    label: {
+      type: String,
+      default: ''
+    },
     iconLeft: {
       type: String,
       default: ''
@@ -48,6 +60,10 @@ export default {
     tipe: {
       type: String,
       default: 'input'
+    },
+    pesan: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -60,36 +76,11 @@ export default {
     };
   },
   computed: {
-    // iconLeft() {
-    //   if (this.data.iconLeft) {
-    //     return this.data.iconLeft;
-    //   } else return '';
-    // },
-    // iconRight() {
-    //   if (this.data.iconLeft) {
-    //     return this.data.iconLeft;
-    //   } else return '';
-    // },
     hasError() {
       if (this.error) {
         return 'inherit';
       } else return 'none';
     }
-    // holder() {
-    //   if (this.data.placeholder) {
-    //     return this.data.placeholder;
-    //   } else return '';
-    // },
-    // type() {
-    //   if (this.data.type) {
-    //     return this.data.type;
-    //   } else return 'input';
-    // },
-    // error() {
-    //   if (this.data.error) {
-    //     return this.data.error;
-    //   } else return '';
-    // }
   },
   methods: {
     mailString(kelas, visib, pesan) {

@@ -1,79 +1,25 @@
 <template>
   <div class="canvas">
     <h1 class="judul"><b>Daftar anggota</b></h1>
-    <button class="button warna-tema" @click="add">
-      <span class="icon-dibutton"><i class="fa fa-plus-circle"></i></span> Tambah Anggota
-    </button>
-    <table class="table is-hoverable">
+    <div class="field atas">
+      <button class="button warna-tema" @click="add">
+        <span class="icon-dibutton"><i class="fa fa-plus-circle"></i></span> Tambah Anggota
+      </button>
+      <Search :load="sLoad" @search="handleSearch" v-model="search" class="anak" />
+    </div>
+    <table class="table is-hoverable is-fullwidth">
       <thead>
         <tr>
-          <th>No</th>
-          <th><abbr title="nama">Nama</abbr></th>
-          <th><abbr title="Nomor Anggota">No Anggota</abbr></th>
           <th><abbr title="Gambar">Foto</abbr></th>
+          <th><abbr title="nama">Identitas</abbr></th>
           <th><abbr title="Alamat">Alamat</abbr></th>
-          <th><abbr title="Nomor Telepon yang digunakan">Telepon</abbr></th>
           <th><abbr title="Kelompok">Kelompok</abbr></th>
-          <th><abbr title="Simpanan Pokok">SP</abbr></th>
-          <th><abbr title="Simpanan Wajib">SW</abbr></th>
-          <th><abbr title="Simpanan Wajib Pinjam">SWP</abbr></th>
-          <th><abbr title="Simpanan Hari Raya">SHR</abbr></th>
-          <th><abbr title="Sisa Hasil Usaha">SHU</abbr></th>
+          <th><abbr title="status anggota">Status</abbr></th>
+          <th><abbr title="Action"> </abbr></th>
         </tr>
       </thead>
       <tbody>
-        <tr @mouseenter="masuk" @mouseleave="keluar" :class="selected">
-          <th>1</th>
-          <td>
-            <a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C."
-              >Leicester City</a
-            >
-            <strong>(C)</strong>
-          </td>
-          <td>38</td>
-          <td>23</td>
-          <td>12</td>
-          <td>3</td>
-          <td>68</td>
-          <td>36</td>
-          <td>+32</td>
-          <td>81</td>
-          <td>
-            Qualification for the
-            <a
-              href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Group_stage"
-              title="2016–17 UEFA Champions League"
-              >Champions League group stage</a
-            >
-          </td>
-        </tr>
-
-        <tr :class="selected">
-          <th>4</th>
-          <td>
-            <a
-              href="https://en.wikipedia.org/wiki/Manchester_City_F.C."
-              title="Manchester City F.C."
-              >Manchester City</a
-            >
-          </td>
-          <td>38</td>
-          <td>19</td>
-          <td>9</td>
-          <td>10</td>
-          <td>71</td>
-          <td>41</td>
-          <td>+30</td>
-          <td>66</td>
-          <td>
-            Qualification for the
-            <a
-              href="https://en.wikipedia.org/wiki/2016%E2%80%9317_UEFA_Champions_League#Play-off_round"
-              title="2016–17 UEFA Champions League"
-              >Champions League play-off round</a
-            >
-          </td>
-        </tr>
+        <Row v-for="(item, apem) in members" :key="apem" :data="item" :index="apem" />
       </tbody>
     </table>
     <transition name="modal">
@@ -86,35 +32,56 @@
         <section slot="body" class="modal-card-body ">
           <div class="masuk ">
             <div class="control">
-              <input-validasi
+              <input-label
                 iconLeft="fa-portrait"
                 placeholder="Nama"
-                @input="nama"
-              ></input-validasi>
-              <input-validasi
+                label="Nama"
+                v-model="user.name"
+              ></input-label>
+              <!-- @input="nama" -->
+              <input-label
                 iconLeft="fa-phone"
                 placeholder="Nomor Telepon"
-                @input="telepon"
-              ></input-validasi>
-              <input-validasi
+                label="Telepon"
+                v-model="user.telepon"
+              ></input-label>
+              <!-- @input="telepon" -->
+              <input-label
                 iconLeft="fa-map-marker-alt"
                 placeholder="Alamat"
-                @input="alamat"
-              ></input-validasi>
-              <span class="pemberitahuan">
+                label="Alamat"
+                v-model="user.alamat"
+              ></input-label>
+              <!-- @input="alamat" -->
+              <!-- <span class="pemberitahuan">
                 <b>*</b> Nomor anggota di isi angka, jika kosong akan terisi otomatis
-              </span>
-              <input-validasi
+              </span> -->
+              <input-label
+                pesan="Nomor anggota di isi angka, jika kosong akan terisi otomatis"
                 iconLeft="fa-id-card"
                 placeholder="Nomor Anggota"
-                @input="nomor"
-              ></input-validasi>
+                label="ID Anggota"
+                v-model="user.id_koperasi"
+              ></input-label>
+              <!-- @input="nomor" -->
+              <!-- <span class="pemberitahuan">
+                <b>*</b> Simpanan pokok kosongi jika memang belum ada
+              </span> -->
+              <input-label
+                pesan="Simpanan pokok kosongi jika memang belum ada"
+                label="Simpanan Pokok"
+                iconLeft="fa-money-check-alt"
+                placeholder="Simpanan Pokok"
+                v-model="user.simPok"
+              ></input-label>
+              <!-- @input="simpanan" -->
             </div>
           </div>
         </section>
         <footer slot="footer" class="modal-card-foot ">
           <button
             class="button warna-tema is-small is-rounded"
+            :class="loading"
             @click.prevent="submit"
             :disabled="disable"
           >
@@ -130,22 +97,37 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 export default {
   name: 'anggota',
   components: {
     Modal: () => import(/* webpackChunkName: "modal" */ '../../components/base/Modal'),
-    'input-validasi': () =>
-      import(/* webpackChunkName: "modal" */ '../../components/base/InputValidate')
+    Search: () => import(/* webpackChunkName: "search" */ '../../components/base/Search'),
+    Row: () => import(/* webpackChunkName: "row" */ './Row'),
+    'input-label': () =>
+      import(/* webpackChunkName: "input" */ '../../components/base/InputValidate')
   },
   data() {
     return {
       selected: '',
       showModal: false,
       disable: false,
-      user: { nama: '', alamat: '', telepon: '', id_koperasi: '' }
+      loading: '',
+      sLoad: '',
+      search: '',
+      user: { name: '', alamat: '', telepon: '', id_koperasi: '', simPok: 0 }
     };
   },
+  created() {
+    this.getMember();
+  },
+  computed: {
+    ...mapState('member', {
+      members: state => state.member
+    })
+  },
   methods: {
+    ...mapActions('member', ['addMember', 'getMember', 'resetStatus']),
     masuk() {
       this.selected = 'is-selected';
     },
@@ -158,28 +140,52 @@ export default {
     handleModal() {
       this.showModal = false;
     },
-    nama(value) {
-      this.user.nama = value;
-      console.log(value);
+    submit() {
+      console.log(this.user);
+      this.disable = true;
+      this.loading = 'is-loading';
+      this.addMember(this.user)
+        .then(() => {
+          this.disable = false;
+          this.loading = '';
+          this.showModal = false;
+          this.getMember();
+        })
+        .catch(() => {
+          this.showModal = false;
+          this.loading = '';
+          this.disable = false;
+        });
     },
-    telepon(value) {
-      this.user.telepon = value;
-      console.log(value);
-    },
-    alamat(value) {
-      this.user.alamat = value;
-      console.log(value);
-    },
-    nomor(value) {
-      this.user.id_koperasi = value;
-      console.log(value);
-    },
-    submit() {}
+    handleSearch(value) {
+      this.sLoad = 'is-loading';
+      this.search = value;
+      this.getMember(value).then(() => {
+        this.sLoad = '';
+        console.log(this.sLoad);
+      });
+      console.log(this.sLoad);
+    }
+  },
+  destroyed() {
+    this.resetStatus;
   }
 };
 </script>
 
 <style scoped>
+.atas {
+  display: flex;
+  justify-content: space-between;
+}
+.anak {
+  flex-grow: 2;
+  margin-left: 10px;
+}
+.table td,
+.table th {
+  vertical-align: middle;
+}
 .masuk {
   padding: 5px 10px;
 }
