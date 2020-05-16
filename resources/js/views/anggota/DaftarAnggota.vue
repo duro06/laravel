@@ -19,7 +19,13 @@
         </tr>
       </thead>
       <tbody>
-        <Row v-for="(item, apem) in members" :key="apem" :data="item" :index="apem" />
+        <Row
+          v-for="(item, apem) in members"
+          :key="apem"
+          :data="item"
+          :index="apem"
+          @gantiStatus="ganti"
+        />
       </tbody>
     </table>
     <transition name="modal">
@@ -38,24 +44,18 @@
                 label="Nama"
                 v-model="user.name"
               ></input-label>
-              <!-- @input="nama" -->
               <input-label
                 iconLeft="fa-phone"
                 placeholder="Nomor Telepon"
                 label="Telepon"
                 v-model="user.telepon"
               ></input-label>
-              <!-- @input="telepon" -->
               <input-label
                 iconLeft="fa-map-marker-alt"
                 placeholder="Alamat"
                 label="Alamat"
                 v-model="user.alamat"
               ></input-label>
-              <!-- @input="alamat" -->
-              <!-- <span class="pemberitahuan">
-                <b>*</b> Nomor anggota di isi angka, jika kosong akan terisi otomatis
-              </span> -->
               <input-label
                 pesan="Nomor anggota di isi angka, jika kosong akan terisi otomatis"
                 iconLeft="fa-id-card"
@@ -63,10 +63,6 @@
                 label="ID Anggota"
                 v-model="user.id_koperasi"
               ></input-label>
-              <!-- @input="nomor" -->
-              <!-- <span class="pemberitahuan">
-                <b>*</b> Simpanan pokok kosongi jika memang belum ada
-              </span> -->
               <input-label
                 pesan="Simpanan pokok kosongi jika memang belum ada"
                 label="Simpanan Pokok"
@@ -74,20 +70,54 @@
                 placeholder="Simpanan Pokok"
                 v-model="user.simPok"
               ></input-label>
-              <!-- @input="simpanan" -->
             </div>
           </div>
         </section>
         <footer slot="footer" class="modal-card-foot ">
           <button
-            class="button warna-tema is-small is-rounded"
+            class="button warna-tema is-rounded"
             :class="loading"
             @click.prevent="submit"
             :disabled="disable"
           >
             Kirimkan
           </button>
-          <button class="button is-small is-rounded" @click.prevent="handleModal">
+          <button class="button is-rounded" @click.prevent="handleModal">
+            Batal
+          </button>
+        </footer>
+      </Modal>
+    </transition>
+    <transition name="modal">
+      <Modal v-if="modalStatus" @close="handleStatus" class="modal">
+        <header slot="header" class="modal-card-head">
+          <p class="modal-card-title ">
+            Ganti Status Anggota
+          </p>
+        </header>
+        <section slot="body" class="modal-card-body ">
+          <div class="masuk ">
+            <div class="control">
+              <p>{{ statusText }}</p>
+              <input-label
+                label="Simpanan Pokok"
+                iconLeft="fa-money-check-alt"
+                placeholder="Simpanan Pokok"
+                v-model="user.simPok"
+              ></input-label>
+            </div>
+          </div>
+        </section>
+        <footer slot="footer" class="modal-card-foot ">
+          <button
+            class="button warna-tema is-rounded"
+            :class="loading"
+            @click.prevent="status"
+            :disabled="disable"
+          >
+            Kirimkan
+          </button>
+          <button class="button is-rounded" @click.prevent="handleStatus">
             Batal
           </button>
         </footer>
@@ -111,6 +141,8 @@ export default {
     return {
       selected: '',
       showModal: false,
+      modalStatus: false,
+      newStatus: '',
       disable: false,
       loading: '',
       sLoad: '',
@@ -124,7 +156,14 @@ export default {
   computed: {
     ...mapState('member', {
       members: state => state.member
-    })
+    }),
+    statusText() {
+      return this.newStatus == 2
+        ? 'Anda akan mengaktifkana anggota ini pastikan nilai simpanan pokok, dan pastikan simpanan pokok telah anda terima'
+        : this.newStatus == 3
+        ? 'Anda akan memberhentikan anggota ini, pastikan semua hak anggota siap diberikan'
+        : 'tidak ada keterangan';
+    }
   },
   methods: {
     ...mapActions('member', ['addMember', 'getMember', 'resetStatus']),
@@ -165,7 +204,15 @@ export default {
         console.log(this.sLoad);
       });
       console.log(this.sLoad);
-    }
+    },
+    ganti(value) {
+      this.modalStatus = true;
+      this.newStatus = value;
+    },
+    handleStatus() {
+      this.modalStatus = false;
+    },
+    status() {}
   },
   destroyed() {
     this.resetStatus;

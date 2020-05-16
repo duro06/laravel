@@ -103,6 +103,10 @@
   color: white !important;
   background-color: #00913e !important;
 }
+.warna-tema2 {
+  color: white !important;
+  background-color: #cfea7f !important;
+}
 /* navbar */
 .navbar {
   display: flex;

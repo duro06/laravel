@@ -27,8 +27,12 @@
     <td>{{ data.alamat }}</td>
 
     <td>{{ kelompok }}</td>
-    <td>{{ status }}</td>
-    <td>detail</td>
+    <td>
+      <span :class="[statusClass, 'tombol']"> {{ status }} </span>
+    </td>
+    <td>
+      <button :class="['button', warna]" @click="gantiStatus">{{ keterangan }}</button>
+    </td>
   </tr>
 </template>
 
@@ -74,25 +78,34 @@ export default {
       }
     },
     status() {
-      switch (this.data.status) {
-        case 1:
-          return 'belum aktif';
-          // eslint-disable-next-line no-unreachable
-          break;
-        case 2:
-          return 'aktif';
-          // eslint-disable-next-line no-unreachable
-          break;
-        case 3:
-          return 'berhenti';
-          // eslint-disable-next-line no-unreachable
-          break;
-
-        default:
-          return 'data tidak ditemukan';
-          // eslint-disable-next-line no-unreachable
-          break;
-      }
+      return this.data.status == 1
+        ? 'Belum Aktif'
+        : this.data.status == 2
+        ? 'Aktif'
+        : this.data.status == 3
+        ? 'Berhenti'
+        : 'data tidak ditemukan';
+    },
+    statusClass() {
+      return this.data.status == 1
+        ? 'yellow'
+        : this.data.status == 2
+        ? 'green'
+        : this.data.status == 3
+        ? 'red'
+        : 'yellow';
+    },
+    warna() {
+      return this.data.status == 2 ? 'is-danger' : 'warna-tema';
+    },
+    keterangan() {
+      return this.data.status == 1
+        ? 'aktifkan'
+        : this.data.status == 2
+        ? 'berhenti'
+        : this.data.status == 3
+        ? 're-aktivasi'
+        : 'aktivasi';
     }
   },
   methods: {
@@ -104,6 +117,11 @@ export default {
     },
     detail() {
       console.log(this.data.id);
+    },
+    gantiStatus() {
+      let status =
+        this.data.status == 1 ? 2 : this.data.status == 2 ? 3 : this.data.status == 3 ? 2 : 2;
+      this.$emit('gantiStatus', status);
     }
   }
 };
@@ -118,6 +136,25 @@ td {
   border: 0px solid;
 }
 tr.is-selected {
-  background-color: #00913f;
+  background-color: #ecf5d0;
+  color: black;
+}
+.tombol {
+  display: inline-flex;
+
+  padding: 10px;
+  border-radius: 5px;
+}
+.yellow {
+  color: yellowgreen;
+  font-weight: 700;
+}
+.red {
+  color: red;
+  font-weight: 700;
+}
+.green {
+  color: #00913e;
+  font-weight: 700;
 }
 </style>
