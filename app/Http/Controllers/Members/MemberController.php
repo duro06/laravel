@@ -32,8 +32,7 @@ class MemberController extends Controller
             'data' => $member,
             'q'=>$q,
             'ss'=>$ss
-            ]
-        );
+            ]);
     }
 
     public function store(Request $request){
@@ -150,4 +149,58 @@ class MemberController extends Controller
         return $id_kop;
 
     }
+
+    public function update(Request $request){
+        $request->validate([
+            'id'=>'required',
+            'status'=>'required'            
+        ]);
+        if($request->status==2 && $request->simPok==0){
+            return response()->json([
+                'message'=>'Simpanan Pokok tidak boleh kosong'
+            ],422);
+        }else{
+
+            $member=Members::find($request->id);
+
+            $member->status=$request->status;
+            $member->simpanan_pokok=$request->simPok;
+
+            if($member->save()){
+                return response()->json(['member'=>$member,'message'=>'sukses'],200);
+            }else{
+                $message = [
+                    'message'=>'some errors occured, Please try again',
+                    'member'=>$member,
+                    'status_code'=>500
+                ];
+                return response()->json($message,500);
+            }
+
+        }
+        
+        // $data=[
+        //     'id'=>$request->id,
+        //     'status'=>$request->status,    
+        // ];
+        // $anggota=Members::find($request->id);
+        
+
+        // return response()->json(
+        //     ['req'=>$data,'mem'=>$member,'angg'=>$anggota]
+        // );
+    }
+
+    public function getMemberById(){
+        $member = Members::orderBy(request()->sortby, request()->sortbydesc)
+        ->when(request()->q, function($member) {
+            $member = $member->where('id',  request()->q);
+        })->paginate(request()->per_page);
+
+        return response()->json([
+            'status'=>'success',
+            'data'=>$member[0]
+            ]);
+    }
+
 }

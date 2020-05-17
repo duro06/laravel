@@ -36,6 +36,8 @@ Route::group(['prefix' => 'auth'], function() {
 Route::group(['prefix'=>'member'], function(){
     Route::group(['middleware' => 'auth:sanctum'], function (){
         Route::get('anggota', 'Members\MemberController@getMembers');
+        Route::get('memberById', 'Members\MemberController@getMemberById');
         Route::post('tambah', 'Members\MemberController@store');
+        Route::post('update', 'Members\MemberController@update');
     });
 });

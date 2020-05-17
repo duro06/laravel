@@ -1,5 +1,5 @@
 <template>
-  <tr @mouseenter="masuk" @mouseleave="keluar" :class="selected" @click="detail">
+  <tr @mouseenter="masuk" @mouseleave="keluar" :class="selected">
     <td>
       <div class="avatar has-text-centered">
         <img :src="foto" alt="logo" />
@@ -28,15 +28,19 @@
 
     <td>{{ kelompok }}</td>
     <td>
-      <span :class="[statusClass, 'tombol']"> {{ status }} </span>
+      <a :class="[statusClass, 'tombol']" @click.prevent="gantiStatus"> {{ status }} </a>
+      <a class="warna-tema tombol" @click.prevent="detail">
+        <span class="icon-dibutton"><i class="fas fa-pencil-alt"></i></span> Detail
+      </a>
     </td>
-    <td>
-      <button :class="['button', warna]" @click="gantiStatus">{{ keterangan }}</button>
-    </td>
+    <!-- <td>
+      <button :class="['button', warna]" >{{ keterangan }}</button>
+    </td> -->
   </tr>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   name: 'tabel-row',
   props: {
@@ -78,37 +82,23 @@ export default {
       }
     },
     status() {
-      return this.data.status == 1
-        ? 'Belum Aktif'
-        : this.data.status == 2
-        ? 'Aktif'
-        : this.data.status == 3
-        ? 'Berhenti'
-        : 'data tidak ditemukan';
+      return this.data.status == 1 ? 'Belum Aktif' : this.data.status == 2 ? 'Aktif' : this.data.status == 3 ? 'Berhenti' : 'data tidak ditemukan';
+    },
+    icon() {
+      return this.data.status == 2 ? 'fa-check' : 'fa-times-circle';
     },
     statusClass() {
-      return this.data.status == 1
-        ? 'yellow'
-        : this.data.status == 2
-        ? 'green'
-        : this.data.status == 3
-        ? 'red'
-        : 'yellow';
+      return this.data.status == 1 ? 'yellow' : this.data.status == 2 ? 'warna-tema' : this.data.status == 3 ? 'red' : 'yellow';
     },
     warna() {
       return this.data.status == 2 ? 'is-danger' : 'warna-tema';
     },
     keterangan() {
-      return this.data.status == 1
-        ? 'aktifkan'
-        : this.data.status == 2
-        ? 'berhenti'
-        : this.data.status == 3
-        ? 're-aktivasi'
-        : 'aktivasi';
+      return this.data.status == 1 ? 'aktifkan' : this.data.status == 2 ? 'berhenti' : this.data.status == 3 ? 're-aktivasi' : 'aktivasi';
     }
   },
   methods: {
+    ...mapActions('member', ['getMemberById']),
     masuk() {
       this.selected = 'is-selected';
     },
@@ -116,12 +106,17 @@ export default {
       this.selected = '';
     },
     detail() {
-      console.log(this.data.id);
+      this.getMemberById(this.data.id).then(() => {
+        this.$router.replace(this.$route.query.redirect || { name: 'detail' }, () => {});
+      });
     },
     gantiStatus() {
-      let status =
-        this.data.status == 1 ? 2 : this.data.status == 2 ? 3 : this.data.status == 3 ? 2 : 2;
-      this.$emit('gantiStatus', status);
+      let status = this.data.status == 1 ? 2 : this.data.status == 2 ? 3 : this.data.status == 3 ? 2 : 2;
+      let data = {
+        status: status,
+        id: this.data.id
+      };
+      this.$emit('gantiStatus', data);
     }
   }
 };
@@ -141,20 +136,22 @@ tr.is-selected {
 }
 .tombol {
   display: inline-flex;
-
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 5px;
 }
 .yellow {
-  color: yellowgreen;
+  background-color: yellowgreen;
+  color: black;
   font-weight: 700;
 }
 .red {
-  color: red;
+  background-color: red;
+  color: white;
   font-weight: 700;
 }
 .green {
-  color: #00913e;
+  background-color: #00913e;
+  color: white;
   font-weight: 700;
 }
 </style>

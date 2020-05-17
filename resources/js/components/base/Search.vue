@@ -2,7 +2,7 @@
   <div class="cari is-fullwidth">
     <div class="field">
       <div :class="['control', 'has-icons-left', diload]">
-        <input class="input " type="string" placeholder="Cari" v-model="cari" />
+        <input class="input " type="string" :placeholder="placeholder" v-model="cari" />
         <span class="icon  is-left">
           <i class="fas fa-search"></i>
         </span>
@@ -18,7 +18,11 @@ export default {
       type: String,
       required: true
     },
-    load: String
+    load: String,
+    placeholder: {
+      type: String,
+      default: 'Cari'
+    }
   },
   data() {
     return { loading: '', hasil: '' };

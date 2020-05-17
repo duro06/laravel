@@ -10,7 +10,7 @@ class Members extends Model
     protected $table = 'members';
     protected $guarded = [];
 
-    public function members(){
-        return $this->hasMany('App\Members');
-    }
+    // public function members(){
+    //     return $this->hasMany('App\Members');
+    // }
 }

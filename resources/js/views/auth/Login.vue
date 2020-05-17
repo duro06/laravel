@@ -25,13 +25,7 @@
                       {{ mail }}
                     </p>
                     <p class="control has-icons-left has-icons-right">
-                      <input
-                        :class="['input', classDanger]"
-                        type="email"
-                        placeholder="Email"
-                        data-lpignore="true"
-                        v-model="user.email"
-                      />
+                      <input :class="['input', classDanger]" type="email" placeholder="Email" data-lpignore="true" v-model="user.email" />
                       <span class="icon is-small is-left">
                         <i class="fas fa-envelope"></i>
                       </span>
@@ -44,30 +38,18 @@
                         <i class="fas fa-exclamation-triangle"></i>
                       </span>
                     </p>
-                    <p
-                      :class="['help', 'align-left', classDanger, formValidation()]"
-                      :style="{ visibility: visClass }"
-                    >
+                    <p :class="['help', 'align-left', classDanger, formValidation()]" :style="{ visibility: visClass }">
                       {{ validMail }}
                     </p>
                   </div>
 
                   <div class="field fadeInUp">
                     <p class="control has-icons-left has-icons-right">
-                      <input
-                        :class="['input', passOk()]"
-                        type="password"
-                        placeholder="Password"
-                        data-lpignore="true"
-                        v-model="user.password"
-                      />
+                      <input :class="['input', passOk()]" type="password" placeholder="Password" data-lpignore="true" v-model="user.password" />
                       <span class="icon is-small is-left">
                         <i class="fas fa-lock"></i>
                       </span>
-                      <span
-                        class="icon is-small is-right is-success"
-                        :style="{ visibility: visPass }"
-                      >
+                      <span class="icon is-small is-right is-success" :style="{ visibility: visPass }">
                         <i class="fas fa-check"></i>
                       </span>
                     </p>
@@ -88,15 +70,7 @@
                     <p class="control">
                       <button
                         @click.prevent="submitForm"
-                        :class="[
-                          'button',
-                          'is-block',
-                          'warna-tema',
-
-                          'is-fullwidth',
-                          loading,
-                          'is-rounded'
-                        ]"
+                        :class="['button', 'is-block', 'warna-tema', 'is-fullwidth', loading, 'is-rounded']"
                         :disabled="disable"
                       >
                         Login
@@ -109,9 +83,7 @@
               <div class="forgot-password fadeInUp">
                 <p class="has-text-centered has-text-small">
                   Did you
-                  <router-link class="is-small" :to="{ path: '/forgot' }"
-                    >forgot your password</router-link
-                  >
+                  <router-link class="is-small" :to="{ path: '/forgot' }">forgot your password</router-link>
                   or
                   <router-link :to="{ name: 'register' }">need an account?</router-link>
                 </p>

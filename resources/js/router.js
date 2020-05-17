@@ -51,18 +51,16 @@ const routes = [
   {
     path: '/anggota',
     name: 'anggota',
-    component: () =>
-      import(/* webpackChunkName: "daftar-anggota" */ './views/anggota/DaftarAnggota.vue'),
+    component: () => import(/* webpackChunkName: "daftar-anggota" */ './views/anggota/DaftarAnggota.vue'),
     meta: {
       name: 'daftar-anggota',
       loggedIn: true
     },
     children: [
       {
-        path: 'detail/:id',
+        path: '/detail',
         name: 'detail',
-        component: () =>
-          import(/* webpackChunkName: "detail-anggota" */ './views/anggota/DetailAnggota.vue'),
+        component: () => import(/* webpackChunkName: "detail-anggota" */ './views/anggota/DetailAnggota.vue'),
         meta: {
           loggedIn: true
         }
