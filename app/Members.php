@@ -10,6 +10,11 @@ class Members extends Model
     protected $table = 'members';
     protected $guarded = [];
 
+    protected $attributes = [
+        'image' => null,
+        'id_kelompok'=>null
+    ];
+
     // public function members(){
     //     return $this->hasMany('App\Members');
     // }

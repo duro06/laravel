@@ -12,3 +12,12 @@ export function http() {
     }
   });
 }
+export function httpFile() {
+  return Axios.create({
+    baseURL: store.getters['auth/apiUrl'],
+    headers: {
+      Authorization: 'Bearer ' + auth.getAccessToken(),
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+}

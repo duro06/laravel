@@ -1,4 +1,4 @@
-import { http } from './http_service';
+import { http, httpFile } from './http_service';
 import store from '../store';
 // import jwt from 'jsonwebtoken';
 
@@ -7,7 +7,9 @@ export function login(data) {
     .post('/auth/login', data)
     .then(res => {
       setToken(res.data);
-      store.dispatch('user/getUser');
+      store.dispatch('user/getUser').then(() => {
+        location.reload();
+      });
     });
 }
 
@@ -31,6 +33,6 @@ export function getAccessToken() {
   return token;
 }
 
-// export function getUser(){
-//   http().get('/user')
-// }
+export function updateImage(id, data) {
+  httpFile().post(`/member/update-image/${id}`, data);
+}

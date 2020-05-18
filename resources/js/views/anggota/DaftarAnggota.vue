@@ -48,7 +48,14 @@
             <div class="masuk ">
               <div class="control">
                 <input-label iconLeft="fa-portrait" placeholder="Nama" label="Nama" v-model="user.name"> </input-label>
-                <input-label iconLeft="fa-phone" placeholder="Nomor Telepon" label="Telepon" v-model="user.telepon"></input-label>
+                <input-label
+                  pesan="Di isi angka saja, jangan ada spasi atau huruf selain angka"
+                  iconLeft="fa-phone"
+                  placeholder="Nomor Telepon"
+                  label="Telepon"
+                  tipe="number"
+                  v-model="user.telepon"
+                ></input-label>
                 <input-label iconLeft="fa-map-marker-alt" placeholder="Alamat" label="Alamat" v-model="user.alamat"></input-label>
                 <input-label
                   pesan="Nomor anggota di isi angka, jika kosong akan terisi otomatis"
@@ -158,7 +165,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('member', ['addMember', 'getMember', 'resetStatus', 'updateMember', 'changePage', 'changePerPage']),
+    ...mapActions('member', ['addMember', 'getMember', 'resetStatus', 'updateMember', 'changePage', 'changePerPage', 'changeStatus']),
     masuk() {
       this.selected = 'is-selected';
     },
@@ -173,6 +180,7 @@ export default {
     },
     submit() {
       console.log(this.user);
+      let status = this.user.simPok == 0 ? 1 : 2;
       this.disable = true;
       this.loading = 'is-loading';
       this.addMember(this.user)
@@ -180,6 +188,7 @@ export default {
           this.disable = false;
           this.loading = '';
           this.showModal = false;
+          this.changeStatus(status);
           this.getMember();
         })
         .catch(() => {

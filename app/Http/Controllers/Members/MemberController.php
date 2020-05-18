@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Members;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Storage;
+
 class MemberController extends Controller
 {
     public function getMembers(){
@@ -66,9 +68,7 @@ class MemberController extends Controller
                 'alamat'=>$request->alamat,
                 'telepon'=>$request->telepon,
                 'simpanan_pokok'=>$simpok,
-                'status'=> $status,
-                'image'=>'/users_images/nouser.png',  
-                'id_kelompok'=>'null'  
+                'status'=> $status,  
             ]);
                                 
             //apabila tidak terjadi error, penyimpanan diverifikasi
@@ -201,6 +201,35 @@ class MemberController extends Controller
             'status'=>'success',
             'data'=>$member[0]
             ]);
+    }
+
+    public function update_image(Request $request, Members $member)
+    {   
+        // $anggota=Members::find($request->id);
+        // return response()->json(['member'=>$member, 'anggota'=>$anggota]);
+        // dd($request->all());
+        $old_path = $member->image;
+        if($request->hasFile('image')) {
+            $request->validate([
+                'image'=>'required|image|mimes:jpeg,png,jpg'
+            ]);
+            $path = $request->file('image')->store('members_images');
+            $member->image = $path;
+
+            if ($old_path != '' || $old_path != null) {
+                Storage::delete($old_path);
+            }      
+            
+        }
+
+        if ($member->save()) {
+            return response()->json($member,200);
+        } else {
+            return response()->json([
+                'message'       => 'Error on Updated',
+                'status_code'   => 500
+            ],500);
+        } 
     }
 
 }

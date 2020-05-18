@@ -26,28 +26,13 @@
                 <div class="menu-text-icon">Daftar Anggota</div>
               </a>
               <div class="navbar-dropdown">
-                <a
-                  href="javascript:void(0)"
-                  class="navbar-item menu-text-icon"
-                  @click.prevent="anggotaAktif"
-                  exact
-                >
+                <a href="javascript:void(0)" class="navbar-item menu-text-icon" @click.prevent="anggotaAktif" exact>
                   <div class="menu-text-icon">Anggota Aktif</div>
                 </a>
-                <a
-                  href="javascript:void(0)"
-                  class="navbar-item menu-text-icon"
-                  @click.prevent="anggotaBelum"
-                  exact
-                >
+                <a href="javascript:void(0)" class="navbar-item menu-text-icon" @click.prevent="anggotaBelum" exact>
                   <div class="menu-text-icon">Anggota Belum Aktif</div>
                 </a>
-                <a
-                  href="javascript:void(0)"
-                  class="navbar-item menu-text-icon"
-                  @click.prevent="anggotaBerhenti"
-                  exact
-                >
+                <a href="javascript:void(0)" class="navbar-item menu-text-icon" @click.prevent="anggotaBerhenti" exact>
                   <div class="menu-text-icon">Anggota Berhenti</div>
                 </a>
               </div>
@@ -81,10 +66,7 @@
                   }}</span> -->
                 </a>
               </li>
-              <li
-                :class="[' navbar-item', currentPage.includes('login') ? activeClass : '']"
-                v-if="!loggedIn"
-              >
+              <li :class="[' navbar-item', currentPage.includes('login') ? activeClass : '']" v-if="!loggedIn">
                 <router-link :to="{ name: 'login' }" class="mega-link" exact>
                   <div class="menu-text-icon">Login</div>
                 </router-link>
@@ -165,7 +147,9 @@ export default {
     },
     userImage() {
       // return 'http://laravel.test/users_images/nouser.png'
-      return this.$store.getters['auth/serverUrl'] + '/users_images/nouser.png';
+      return this.$store.state.user.user.image == null
+        ? this.$store.getters['auth/storageUrl'] + 'users_images/nouser.png'
+        : this.$store.getters['auth/storageUrl'] + this.$store.state.user.user.image;
     },
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
@@ -174,7 +158,7 @@ export default {
       return this.$route.path;
     },
     logo() {
-      return this.$store.getters['auth/storageUrl'] + '/galleries_images/logo.png';
+      return this.$store.getters['auth/storageUrl'] + 'galleries_images/logo.png';
     }
   },
   methods: {

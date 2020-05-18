@@ -39,6 +39,6 @@ class User extends Authenticatable
     ];
 
     protected $attributes = [
-        'image' => 'users_images/nouser.png',
+        'image' => null,
     ];
 }

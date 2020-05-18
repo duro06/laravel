@@ -1,9 +1,6 @@
 <template>
   <div class="main">
-    <FlashMessage
-      position="right top"
-      style="z-index: 19999 !important; position: fixed;"
-    ></FlashMessage>
+    <FlashMessage position="right top" style="z-index: 19999 !important; position: fixed;"></FlashMessage>
     <Header />
     <router-view />
   </div>
@@ -15,6 +12,11 @@ export default {
   components: {
     Header: () => import(/* webpackChunkName: "header" */ './components/Header')
     // Sidebar:()=>import(/* webpackChunkName: "header" */ './components/Sidebar')
+  },
+  mounted() {
+    if (localStorage.getItem('token')) {
+      this.$store.dispatch('user/getUser');
+    }
   }
 };
 </script>

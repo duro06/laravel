@@ -14,12 +14,13 @@ const mutations = {
 
 const actions = {
   getUser(context) {
-    return new Promise(() => {
+    return new Promise(resolve => {
       http()
         .get('/user')
         .then(res => {
           context.commit('setUser', res.data);
-          location.reload();
+          // location.reload();
+          resolve(res.data);
         });
     });
   },

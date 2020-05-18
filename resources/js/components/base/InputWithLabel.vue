@@ -6,14 +6,7 @@
     <div class="field-body">
       <div class="field">
         <p class="control">
-          <inputValidate
-            class="input"
-            :type="tipe"
-            :placeholder="placeholder"
-            :iconLeft="iconLeft"
-            :iconRight="iconRight"
-            :error="error"
-          />
+          <inputValidate class="input" :type="tipe" :placeholder="placeholder" :iconLeft="iconLeft" :iconRight="iconRight" :error="error" />
         </p>
       </div>
     </div>

@@ -1,12 +1,7 @@
 <template>
   <div class="main">
     <email @email="handleMail" :error="mailError" />
-    <input-validasi
-      @input="handleInput"
-      :error="inputError"
-      :iconLeft="left"
-      placeholder="Telepon"
-    />
+    <input-validasi @input="handleInput" :error="inputError" :iconLeft="left" placeholder="Telepon" />
 
     <button class="button is-success" @click="kumpul">coba</button>
     <button class="button is-success" @click="login">Login Test</button>
@@ -64,7 +59,7 @@ export default {
       this.$store.dispatch('member/getAnggota');
     },
     logged() {
-      console.log('anggota', this.$store.state.member.anggota);
+      console.log('anggota', this.$store.state.user.user.image);
     }
   }
 };

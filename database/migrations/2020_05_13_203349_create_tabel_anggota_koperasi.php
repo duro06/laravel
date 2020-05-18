@@ -19,11 +19,11 @@ class CreateTabelAnggotaKoperasi extends Migration
             $table->string('id_koperasi');
             $table->string('alamat');            
             $table->string('role')->default('anggota');            
-            $table->string('image');            
+            $table->string('image')->nullable();            
             $table->string('telepon');            
             $table->integer('status');
             $table->float('simpanan_pokok',10,2);
-            $table->string('id_kelompok');            
+            $table->string('id_kelompok')->nullable();            
             $table->timestamps();
         });
     }

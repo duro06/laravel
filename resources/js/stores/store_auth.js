@@ -31,7 +31,7 @@ const getters = {
     return state.server + '/api';
   },
   storageUrl(state) {
-    return state.server + '/storage';
+    return state.server + '/storage/';
   },
   serverUrl(state) {
     return state.server;

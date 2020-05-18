@@ -39,5 +39,6 @@ Route::group(['prefix'=>'member'], function(){
         Route::get('memberById', 'Members\MemberController@getMemberById');
         Route::post('tambah', 'Members\MemberController@store');
         Route::post('update', 'Members\MemberController@update');
+        Route::put('update-image/{member}', 'Members\MemberController@update_image');
     });
 });

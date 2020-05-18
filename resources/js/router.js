@@ -58,7 +58,7 @@ const routes = [
     },
     children: [
       {
-        path: '/detail',
+        path: 'detail/:id',
         name: 'detail',
         component: () => import(/* webpackChunkName: "detail-anggota" */ './views/anggota/DetailAnggota.vue'),
         meta: {

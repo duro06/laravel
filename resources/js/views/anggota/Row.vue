@@ -2,7 +2,9 @@
   <tr @mouseenter="masuk" @mouseleave="keluar" :class="selected">
     <td>
       <div class="avatar has-text-centered">
-        <img :src="foto" alt="logo" />
+        <figure class="image is-3by4">
+          <img :src="foto" alt="logo" />
+        </figure>
       </div>
     </td>
 
@@ -29,7 +31,7 @@
     <td>{{ kelompok }}</td>
     <td>
       <a :class="[statusClass, 'tombol']" @click.prevent="gantiStatus"> {{ status }} </a>
-      <a class="warna-tema tombol" @click.prevent="detail">
+      <a :class="['warna-tema', 'tombol', loading]" @click.prevent="detail" :disable="disable">
         <span class="icon-dibutton"><i class="fas fa-pencil-alt"></i></span> Detail
       </a>
     </td>
@@ -67,12 +69,16 @@ export default {
   },
   data() {
     return {
-      selected: ''
+      selected: '',
+      loading: '',
+      disable: false
     };
   },
   computed: {
     foto() {
-      return this.$store.getters['auth/serverUrl'] + this.data.image;
+      return this.data.image != null
+        ? this.$store.getters['auth/storageUrl'] + this.data.image
+        : this.$store.getters['auth/storageUrl'] + 'users_images/nouser.png';
     },
     kelompok() {
       if (this.id_kelompok != null) {
@@ -106,8 +112,13 @@ export default {
       this.selected = '';
     },
     detail() {
+      this.disable = true;
+      this.loading = 'is-loading';
       this.getMemberById(this.data.id).then(() => {
-        this.$router.replace(this.$route.query.redirect || { name: 'detail' }, () => {});
+        this.disable = false;
+        this.loading = '';
+
+        this.$router.replace(this.$route.query.redirect || { name: 'detail', params: { id: this.data.id } }, () => {});
       });
     },
     gantiStatus() {
