@@ -165,7 +165,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('member', ['addMember', 'getMember', 'resetStatus', 'updateMember', 'changePage', 'changePerPage', 'changeStatus']),
+    ...mapActions('member', ['addMember', 'getMember', 'resetStatus', 'updateStatus', 'changePage', 'changePerPage', 'changeStatus']),
     masuk() {
       this.selected = 'is-selected';
     },
@@ -222,7 +222,7 @@ export default {
     status() {
       this.disable = true;
       this.loading = 'is-loading';
-      this.updateMember(this.user)
+      this.updateStatus(this.user)
         .then(res => {
           this.disable = false;
           this.loading = '';

@@ -16,8 +16,8 @@ class CreateTabelTransaksi extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('id_dana_anggota');
-            $table->string('id_tipe_transaksi');
+            $table->string('dana_anggota_id');
+            $table->string('tipe_transaksi_id');
             $table->timestamps();
         });
     }

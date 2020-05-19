@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTabelKelompokKoperasi extends Migration
+class CreateTabelArusKas extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTabelKelompokKoperasi extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('tipe_transaksi', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_koperasi');            
-            $table->integer('member_id');            
-            $table->boolean('leader');            
+            $table->string('name');
+            $table->string('transaksi_id');
+            $table->string('dana_anggota_id');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateTabelKelompokKoperasi extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('tipe_transaksi');
     }
 }

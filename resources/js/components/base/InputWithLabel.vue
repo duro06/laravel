@@ -6,7 +6,16 @@
     <div class="field-body">
       <div class="field">
         <p class="control">
-          <inputValidate class="input" :type="tipe" :placeholder="placeholder" :iconLeft="iconLeft" :iconRight="iconRight" :error="error" />
+          <inputValidate
+            v-model="data"
+            :value="data"
+            class="input"
+            :type="tipe"
+            :placeholder="placeholder"
+            :iconLeft="iconLeft"
+            :iconRight="iconRight"
+            :error="error"
+          />
         </p>
       </div>
     </div>
@@ -19,8 +28,23 @@ export default {
   components: {
     inputValidate: () => import(/* webpackChunkName: "input" */ './InputValidate')
   },
+  computed: {
+    data: {
+      get() {
+        let value = this.value;
+        return value;
+      },
+      set(newValue) {
+        this.$emit('data', newValue);
+      }
+    }
+  },
 
   props: {
+    value: {
+      type: String,
+      required: true
+    },
     label: {
       type: String,
       default: 'label'

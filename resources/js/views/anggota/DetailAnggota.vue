@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                   <th class="no-border">Kelompok</th>
-                  <td class="no-border">{{ member.id_kelompok }}</td>
+                  <td class="no-border">{{ kelompok }}</td>
                 </tr>
               </tbody>
             </table>
@@ -88,7 +88,9 @@
         <section slot="body" class="modal-card-body ">
           <div class="masuk ">
             <div class="control">
-              <input-label label="Simpanan Pokok" iconLeft="fa-money-check-alt" placeholder="Simpanan Pokok" v-model="user.simPok"></input-label>
+              <input-label label="Nama" iconLeft="fa-money-check-alt" placeholder="Nama" v-model="user.name" :value="user.name"></input-label>
+              <input-label label="Alamat" iconLeft="fa-money-check-alt" placeholder="Alamat" v-model="user.alamat"></input-label>
+              <input-label label="Telepon" iconLeft="fa-money-check-alt" placeholder="Telepon" v-model="user.telepon"></input-label>
             </div>
           </div>
         </section>
@@ -132,15 +134,26 @@ export default {
   computed: {
     ...mapState('member', {
       member: state => state.member
-    })
+    }),
+    kelompok() {
+      return this.member.id_kelompok == null ? 'belum ada kelompok' : 'data kelompok belum ada';
+    }
   },
   methods: {
-    ...mapActions('member', ['getMemberById']),
-    submit() {},
+    ...mapActions('member', ['getMemberById', 'updateProfile']),
+    submit() {
+      this.disable = true;
+      this.loading = 'is-loading';
+      this.updateProfile(this.user).then(() => {
+        this.getMemberById(this.$route.params.id);
+        this.disable = false;
+        this.loading = '';
+        this.modalEdit = false;
+      });
+    },
 
     editProfile() {
       this.user.simPok = this.user.simpanan_pokok;
-      console.log('simpok', this.user.simPok);
       this.modalEdit = true;
     },
 

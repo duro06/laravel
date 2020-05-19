@@ -23,7 +23,7 @@ class CreateTabelAnggotaKoperasi extends Migration
             $table->string('telepon');            
             $table->integer('status');
             $table->float('simpanan_pokok',10,2);
-            $table->string('id_kelompok')->nullable();            
+            $table->string('kelompok_id')->nullable();            
             $table->timestamps();
         });
     }

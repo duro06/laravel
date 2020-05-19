@@ -126,15 +126,27 @@ const actions = {
   changePerPage({ commit }, payload) {
     commit('setPerPage', payload);
   },
-  updateMember(context, payload) {
+  updateStatus(context, payload) {
     return new Promise((resolve, reject) => {
       http()
-        .post(`member/update`, payload)
+        .post(`member/update-status`, payload)
         .then(res => {
           resolve(res);
         })
         .catch(err => {
           reject(err);
+        });
+    });
+  },
+  updateProfile(context, payload) {
+    return new Promise(resolve => {
+      http()
+        .put(`member/update-profile/${payload.id}`, payload)
+        .then(res => {
+          resolve(res);
+        })
+        .catch(err => {
+          console.log(err);
         });
     });
   }

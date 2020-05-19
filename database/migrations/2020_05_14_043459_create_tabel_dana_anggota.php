@@ -16,7 +16,7 @@ class CreateTabelDanaAnggota extends Migration
         Schema::create('dana_anggota', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('id_anggota');
+            $table->string('member_id');
             $table->string('keterangan');
             $table->timestamps();
         });

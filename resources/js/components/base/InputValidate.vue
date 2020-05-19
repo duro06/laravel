@@ -10,14 +10,7 @@
         </p>
         <span class="pemberitahuan" v-if="pesan"> <B>*</B> {{ pesan }} </span>
         <p class="control has-icons-left has-icons-right">
-          <input
-            @change="validate"
-            :class="['input', mailClass]"
-            :type="tipe"
-            :placeholder="placeholder"
-            data-lpignore="true"
-            v-model="input"
-          />
+          <input @change="validate" :class="['input', mailClass]" :type="tipe" :placeholder="placeholder" data-lpignore="true" v-model="input" />
           <span v-if="iconLeft" class="icon is-small is-left">
             <i :class="['fas', iconLeft]"></i>
           </span>
@@ -36,7 +29,12 @@
 <script>
 export default {
   name: 'input-validation',
+
   props: {
+    value: {
+      type: String,
+      required: true
+    },
     label: {
       type: String,
       default: ''
@@ -68,7 +66,6 @@ export default {
   },
   data() {
     return {
-      input: '',
       mailClass: '',
       visible: 'hidden',
       message: '',
@@ -80,6 +77,15 @@ export default {
       if (this.error) {
         return 'inherit';
       } else return 'none';
+    },
+    input: {
+      get() {
+        let value = this.value;
+        return value;
+      },
+      set(newValue) {
+        this.$emit('input', newValue);
+      }
     }
   },
   methods: {

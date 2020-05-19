@@ -150,7 +150,7 @@ class MemberController extends Controller
 
     }
 
-    public function update(Request $request){
+    public function update_status(Request $request){
         $request->validate([
             'id'=>'required',
             'status'=>'required'            
@@ -222,6 +222,26 @@ class MemberController extends Controller
             
         }
 
+        if ($member->save()) {
+            return response()->json($member,200);
+        } else {
+            return response()->json([
+                'message'       => 'Error on Updated',
+                'status_code'   => 500
+            ],500);
+        } 
+    }
+
+    public function update_profile(Request $request, Members $member){
+        $request->validate([
+            'name'=>'required',
+            'alamat'=>'required',            
+            'telepon'=>'required'            
+        ]);
+        $member->name=$request->name;
+        $member->telepon=$request->telepon;
+        $member->alamat=$request->alamat;
+        
         if ($member->save()) {
             return response()->json($member,200);
         } else {

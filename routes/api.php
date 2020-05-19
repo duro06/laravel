@@ -38,7 +38,8 @@ Route::group(['prefix'=>'member'], function(){
         Route::get('anggota', 'Members\MemberController@getMembers');
         Route::get('memberById', 'Members\MemberController@getMemberById');
         Route::post('tambah', 'Members\MemberController@store');
-        Route::post('update', 'Members\MemberController@update');
+        Route::post('update-status', 'Members\MemberController@update_status');
         Route::put('update-image/{member}', 'Members\MemberController@update_image');
+        Route::put('update-profile/{member}', 'Members\MemberController@update_profile');
     });
 });

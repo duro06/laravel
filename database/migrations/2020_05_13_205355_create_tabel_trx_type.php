@@ -17,8 +17,8 @@ class CreateTabelPinjaman extends Migration
             $table->id();
             $table->string('name');
             $table->string('tipe'); // pinjaman / angusran
-            $table->string('id_anggota');
-            $table->string('id_kelompok');
+            $table->string('member_id');
+            $table->string('kelompok_id');
             $table->timestamps();
         });
     }
