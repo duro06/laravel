@@ -146,10 +146,7 @@ export default {
       return [];
     },
     userImage() {
-      // return 'http://laravel.test/users_images/nouser.png'
-      return this.$store.state.user.user.image == null
-        ? this.$store.getters['auth/storageUrl'] + 'users_images/nouser.png'
-        : this.$store.getters['auth/storageUrl'] + this.$store.state.user.user.image;
+      return this.$store.state.user.user.image;
     },
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
@@ -161,11 +158,24 @@ export default {
       return this.$store.getters['auth/storageUrl'] + 'galleries_images/logo.png';
     }
   },
+  watch: {
+    userImage: {
+      handler: 'loadImage',
+      immediate: true
+    }
+  },
   methods: {
     ...mapActions('member', ['changeStatus', 'getMember']),
     hideSidebar: function(e) {
       e.preventDefault();
       document.querySelector('body').classList.toggle('sb-sidenav-toggled');
+    },
+    loadImage: function() {
+      let image = this.$store.state.user.user.image;
+      if (image !== null) {
+        return (this.displayImage = this.$store.getters['auth/storageUrl'] + image);
+      }
+      return (this.displayImage = this.$store.getters['auth/storageUrl'] + `users_images/nouser.png`);
     },
     logout() {
       this.disable = true;
@@ -209,5 +219,8 @@ export default {
 }
 .user {
   margin-left: 0px;
+}
+.navbar-item img {
+  max-height: 2rem;
 }
 </style>

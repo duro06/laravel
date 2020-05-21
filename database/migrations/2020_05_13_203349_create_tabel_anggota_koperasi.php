@@ -24,6 +24,7 @@ class CreateTabelAnggotaKoperasi extends Migration
             $table->integer('status');
             $table->float('simpanan_pokok',10,2);
             $table->string('kelompok_id')->nullable();            
+            $table->string('user_id')->nullable();            
             $table->timestamps();
         });
     }

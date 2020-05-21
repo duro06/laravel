@@ -15,6 +15,9 @@ class Members extends Model
         'id_kelompok'=>null
     ];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
     // public function members(){
     //     return $this->hasMany('App\Members');
     // }

@@ -1,4 +1,4 @@
-import { http } from '../services/http_service';
+import { http, httpFile } from '../services/http_service';
 const state = () => ({
   user: {}
 });
@@ -27,6 +27,23 @@ const actions = {
   removeUser(context) {
     context.commit('delUser');
     localStorage.removeItem('token');
+  },
+  updateImage(comtext, id, data) {
+    // return new Promise(resolve => {
+    httpFile().post(`/auth/update-image/${id}`, data);
+    // .then(res => {
+    //   resolve(res);
+    // });
+    // });
+  },
+  updateProfile(context, payload) {
+    return new Promise(resolve => {
+      http()
+        .put(`auth/update-profile/${payload.id}`, payload)
+        .then(res => {
+          resolve(res);
+        });
+    });
   }
 };
 

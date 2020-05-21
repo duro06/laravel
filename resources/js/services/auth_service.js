@@ -36,3 +36,7 @@ export function getAccessToken() {
 export function updateImage(id, data) {
   httpFile().post(`/member/update-image/${id}`, data);
 }
+
+export function updateUserImage(id, data) {
+  httpFile().post(`/auth/update-image/${id}`, data);
+}

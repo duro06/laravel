@@ -13,7 +13,7 @@ class CreateTabelKelompokKoperasi extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('kelompoks', function (Blueprint $table) {
             $table->id();
             $table->integer('id_koperasi');            
             $table->integer('member_id');            
@@ -29,6 +29,6 @@ class CreateTabelKelompokKoperasi extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('kelompoks');
     }
 }

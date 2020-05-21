@@ -19,10 +19,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'auth'], function() {
+    Route::group(['middleware'=>'auth:sanctum'], function(){
+        Route::post('logout', 'Auth\AuthController@logout');
+        Route::put('update-profile/{user}', 'Auth\AuthController@update_profile');
+        Route::put('update-image/{user}', 'Auth\AuthController@update_image');
+
+    });
 
     Route::post('register', 'Auth\AuthController@register'); // ini untuk alamat api/auth/register
     Route::post('login', 'Auth\AuthController@login');
-    Route::post('logout', 'Auth\AuthController@logout')->middleware('auth:sanctum');
 
     
     // Route::post('addtoreg', 'RegistrationController@addtoreg'); // ini alamat untuk user selain root dan admin (api/auth/addtoreg)

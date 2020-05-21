@@ -4,14 +4,7 @@
       {{ error }}
     </p>
     <p class="control has-icons-left has-icons-right">
-      <input
-        @change="validate"
-        :class="['input', mailClass]"
-        type="email"
-        placeholder="Email"
-        data-lpignore="true"
-        v-model="email"
-      />
+      <input @change="validate" :class="['input', mailClass]" type="email" placeholder="Email" data-lpignore="true" v-model="email" />
       <span class="icon is-small is-left">
         <i class="fas fa-envelope"></i>
       </span>
@@ -32,11 +25,15 @@ export default {
     error: {
       type: String,
       default: ''
+    },
+    value: {
+      type: String,
+      required: true
     }
   },
   data() {
     return {
-      email: '',
+      // email: '',
       mailClass: '',
       visib: 'hidden',
       message: '',
@@ -48,6 +45,15 @@ export default {
       if (this.error) {
         return 'inherit';
       } else return 'none';
+    },
+    email: {
+      get() {
+        let value = this.value;
+        return value;
+      },
+      set(newValue) {
+        this.$emit('input', newValue);
+      }
     }
     //   error() {
     //     if (this.error) {

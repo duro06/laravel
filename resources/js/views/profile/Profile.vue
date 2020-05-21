@@ -1,5 +1,5 @@
 <template>
-  <div class="detail">
+  <div class="canvas">
     <div class="canvas">
       <div class="columns">
         <div class="column is-3">
@@ -24,19 +24,22 @@
               <tbody>
                 <tr>
                   <th class="no-border">Nama</th>
-                  <td class="no-border">{{ member.name }}</td>
+                  <td class="no-border">{{ user.name }}</td>
                 </tr>
                 <tr>
                   <th class="no-border">ID Koperasi</th>
-                  <td class="no-border">{{ member.id_koperasi }}</td>
+                  <td class="no-border" v-if="hasIdKop">{{ user.id_koperasi }}</td>
+                  <td class="no-border" v-else>
+                    <button class="button warna-tema" @click="hasMember">Tautkan dengan data anggota</button>
+                  </td>
                 </tr>
                 <tr>
                   <th class="no-border">Alamat</th>
-                  <td class="no-border">{{ member.alamat }}</td>
+                  <td class="no-border">{{ user.alamat }}</td>
                 </tr>
                 <tr>
                   <th class="no-border">Nomor Telepon</th>
-                  <td class="no-border">{{ member.telepon }}</td>
+                  <td class="no-border">{{ user.telepon }}</td>
                 </tr>
                 <tr>
                   <th class="no-border">Kelompok</th>
@@ -49,13 +52,13 @@
             <span class="icon-dibutton"><i class="fas fa-pencil-alt"></i></span> Edit
           </button>
         </div>
-        <div class="column is-4">
+        <div class="column is-4" v-if="hasIdKop">
           <h1 class="has-text-centered"><B>Hak Anggota</B></h1>
           <table class="table is-fullwidth">
             <tbody>
               <tr>
                 <th class="no-border">Simpanan Pokok</th>
-                <td class="no-border">{{ member.simpanan_pokok }}</td>
+                <td class="no-border">{{ user.simpanan_pokok }}</td>
               </tr>
               <tr>
                 <th class="no-border">Simpanan Wajib</th>
@@ -89,6 +92,18 @@
           <div class="masuk ">
             <div class="control">
               <input-label label="Nama" iconLeft="fa-money-check-alt" placeholder="Nama" v-model="user.name" :value="user.name"></input-label>
+              <!-- <div class="field is-horizontal">
+                <div class="field-label is-normal">
+                  <label class="label">Email</label>
+                </div>
+                <div class="field-body">
+                  <div class="field">
+                    <p class="control">
+                      <input-email v-model="user.email" :value="user.email"></input-email>
+                    </p>
+                  </div>
+                </div>
+              </div> -->
               <input-label label="Alamat" iconLeft="fa-money-check-alt" placeholder="Alamat" v-model="user.alamat"></input-label>
               <input-label label="Telepon" iconLeft="fa-money-check-alt" placeholder="Telepon" v-model="user.telepon"></input-label>
             </div>
@@ -104,17 +119,52 @@
         </footer>
       </Modal>
     </transition>
+    <transition name="modal">
+      <Modal v-if="modalCari" @close="handleCari" class="modal">
+        <header slot="header" class="modal-card-head">
+          <p class="modal-card-title ">
+            Tautkan dengan anggota
+          </p>
+        </header>
+        <section slot="body" class="modal-card-body ">
+          <div class="masuk ">
+            <div class="control">
+              <Search :load="loading" @search="handleSearch" v-model="search" class="anak" placeholder="Cari Nama" />
+            </div>
+            <table class="table  is-fullwidth" v-if="members.length">
+              <thead>
+                <tr>
+                  <th><abbr title="Gambar">Foto</abbr></th>
+                  <th><abbr title="status anggota">Nama</abbr></th>
+                  <th><abbr title="Action"> </abbr></th>
+                </tr>
+              </thead>
+              <tbody>
+                <Row v-for="(item, apem) in members" :key="apem" :data="item" :index="apem" @gantiStatus="cari" />
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <footer slot="footer" class="modal-card-foot ">
+          <button class="button is-rounded" @click.prevent="handleCari">
+            Batal
+          </button>
+        </footer>
+      </Modal>
+    </transition>
   </div>
 </template>
 
 <script>
-// import * as auth from '../../services/auth_service';
+import * as auth from '../../services/auth_service';
 import { mapState, mapActions } from 'vuex';
 export default {
   name: 'detail-anggota',
   components: {
     Modal: () => import(/* webpackChunkName: "modal" */ '../../components/base/Modal'),
-    'input-label': () => import(/* webpackChunkName: "input" */ '../../components/base/InputValidate')
+    'input-label': () => import(/* webpackChunkName: "input-label" */ '../../components/base/InputValidate'),
+    Search: () => import(/* webpackChunkName: "input-search" */ '../../components/base/Search'),
+    Row: () => import(/* webpackChunkName: "input-row" */ './Row')
   },
   data() {
     return {
@@ -122,25 +172,55 @@ export default {
       user: {},
       loading: '',
       modalEdit: false,
-      disable: false
+      modalCari: false,
+      disable: false,
+      search: ''
     };
   },
-  // created() {
-  //   this.getUser(this.$route.params.id).then(() => {
-  //     this.loadImage();
-  //   });
-  // },
-  mounted() {},
+  created() {
+    //   this.getUser(this.$route.params.id).then(() => {
+    // this.loadImage();
+    //   });
+  },
+  watch: {
+    User: {
+      handler: 'loadImage',
+      immediate: true
+    }
+  },
   computed: {
     ...mapState('user', {
-      member: state => state.user
+      User: state => state.user
+    }),
+    ...mapState('member', {
+      members: state => state.members
     }),
     kelompok() {
-      return this.member.id_kelompok == null ? 'belum ada kelompok' : 'data kelompok belum ada';
+      return this.user.id_kelompok == null ? 'belum ada kelompok' : 'data kelompok belum ada';
+    },
+    hasIdKop() {
+      return this.user.id_kelompok != null ? true : false;
     }
   },
   methods: {
-    ...mapActions('user', ['getUser', 'updateImage', 'updateProfile']),
+    ...mapActions('user', ['getUser', 'updateImage']),
+    ...mapActions('member', ['getMember']),
+    hasMember() {
+      this.modalCari = true;
+    },
+    cari(data) {
+      console.log(data);
+    },
+    handleCari() {
+      this.modalCari = false;
+    },
+    handleSearch(value) {
+      this.search = value;
+      this.loading = 'is-loading';
+      this.getMember(value).then(() => {
+        this.loading = '';
+      });
+    },
     submit() {
       this.disable = true;
       this.loading = 'is-loading';
@@ -161,10 +241,8 @@ export default {
       this.modalEdit = false;
     },
     loadImage: function() {
-      let image = this.member.image;
-      console.log(image);
-      console.log(this.member);
-      this.user = this.member;
+      let image = this.User.image;
+      this.user = this.User;
       if (image !== null) {
         return (this.displayImage = this.$store.getters['auth/storageUrl'] + image);
       }
@@ -191,19 +269,16 @@ export default {
       formData.append('id', this.user.id);
 
       try {
-        const response = await this.updateImage(this.user.id, formData);
-        console.log(response);
+        const response = await auth.updateUserImage(this.user.id, formData);
+
+        this.getUser();
         this.flashMessage.success({
           message: 'Avatar has been updated successfully!',
           time: 5000
         });
         this.user.image = response.data.image;
-      } catch (error) {
-        this.flashMessage.error({
-          message: error.response.data.message,
-          time: 5000
-        });
-      }
+        // eslint-disable-next-line no-empty
+      } catch {}
     }
   }
 };
@@ -231,7 +306,7 @@ table {
 h1 {
   margin-bottom: 40px;
 }
-// .tengahin {
-//   margin-top: 30px;
+// .edit-avatar {
+//   margin-left: -19px;
 // }
 </style>

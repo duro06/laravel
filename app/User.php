@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role','status','alamat','telepon'
+        'name', 'email', 'password','role','status','alamat','telepon', 'member_id'
     ];
 
     /**
@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $attributes = [
         'image' => null,
     ];
+    
+    public function member(){
+        return $this->belongsTo(Members::class);
+    }
 }
