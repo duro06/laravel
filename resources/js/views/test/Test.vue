@@ -1,11 +1,11 @@
 <template>
   <div class="main">
-    <email @email="handleMail" :error="mailError" />
-    <input-validasi @input="handleInput" :error="inputError" :iconLeft="left" placeholder="Telepon" />
+    <email @email="handleMail" :error="mailError" v-model="mail" :value="mail" />
+    <!-- <input-validasi @input="handleInput" :error="inputError" :iconLeft="left" placeholder="Telepon" /> -->
 
     <button class="button is-success" @click="kumpul">coba</button>
     <button class="button is-success" @click="login">Login Test</button>
-    <button class="button is-success" @click="user">Get user</button>
+    <button class="button is-success" @click="user">Get Member</button>
     <button class="button is-success" @click="logged">test login getters</button>
   </div>
 </template>
@@ -15,15 +15,16 @@ import { http } from '../../services/http_service';
 export default {
   name: 'test',
   components: {
-    email: () => import('../../components/base/InputEmail.vue'),
-    'input-validasi': () => import('../../components/base/InputValidate.vue')
+    email: () => import('../../components/base/InputEmail.vue')
+    // 'input-validasi': () => import('../../components/base/InputValidate.vue')
   },
   data() {
     return {
       left: 'fa-phone',
       mailError: '',
       inputError: '',
-      toggle: false
+      toggle: false,
+      mail: ''
     };
   },
   methods: {
@@ -56,7 +57,7 @@ export default {
       });
     },
     user() {
-      this.$store.dispatch('member/getAnggota');
+      this.$store.dispatch('member/getMember');
     },
     logged() {
       console.log('anggota', this.$store.state.user.user.image);

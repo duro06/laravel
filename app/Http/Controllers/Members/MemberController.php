@@ -2,31 +2,27 @@
 
 namespace App\Http\Controllers\Members;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Members;
+use IUMemberRepo;
+use App\Repositories\MemberRepo;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
+    protected $member=null;
+    public function __construct(MemberRepo $member){
+        $this->member=$member;
+    }
     public function getMembers(){
         $q=request()->q;
         $ss=request()->ss;
-        if($q!=null){
-            $member = Members::orderBy(request()->sortby, request()->sortbydesc)
-                ->when(request()->q, function($member) {
-                    $member = $member->where('name', 'LIKE', '%' . request()->q . '%');
-                })->paginate(request()->per_page);
 
-        }else{
-            $member = Members::orderBy(request()->sortby, request()->sortbydesc)
-                ->when(request()->ss, function($member) {
-                    $member = $member->where('status', 'LIKE', '%' . request()->ss . '%');
-                })->paginate(request()->per_page);
-
-        }
+        $member=$this->member->getAllMembers($q,$ss);
 
         // $member->load('status:id,name');
         return response()->json([
@@ -192,14 +188,12 @@ class MemberController extends Controller
     }
 
     public function getMemberById(){
-        $member = Members::orderBy(request()->sortby, request()->sortbydesc)
-        ->when(request()->q, function($member) {
-            $member = $member->where('id',  request()->q);
-        })->paginate(request()->per_page);
+        
+        $member=Members::find(request()->q);
 
         return response()->json([
             'status'=>'success',
-            'data'=>$member[0]
+            'data'=>$member
             ]);
     }
 

@@ -28,8 +28,15 @@
                 </tr>
                 <tr>
                   <th class="no-border">ID Koperasi</th>
-                  <td class="no-border" v-if="hasIdKop">{{ user.id_koperasi }}</td>
-                  <td class="no-border" v-else>
+                  <td class="no-border has-button-right" v-if="hasIdKop">
+                    {{ user.member.id_koperasi }}
+                    <span v-if="hasIdKop && adminInCharge">
+                      <a :class="['button','warna-tema', 'tombol', loading]" @click.prevent="pisahkan" :disable="disable">
+                        <span class="icon-dibutton"><i class="fas fa-unlink"></i></span> Pisahkan
+                      </a>
+                    </span>
+                  </td>
+                  <td class="no-border" v-if="!hasIdKop">
                     <button class="button warna-tema" @click="hasMember">Tautkan dengan data anggota</button>
                   </td>
                 </tr>
@@ -58,7 +65,7 @@
             <tbody>
               <tr>
                 <th class="no-border">Simpanan Pokok</th>
-                <td class="no-border">{{ user.simpanan_pokok }}</td>
+                <td class="no-border">{{ user.member.simpanan_pokok }}</td>
               </tr>
               <tr>
                 <th class="no-border">Simpanan Wajib</th>
@@ -137,10 +144,11 @@
                   <th><abbr title="Gambar">Foto</abbr></th>
                   <th><abbr title="status anggota">Nama</abbr></th>
                   <th><abbr title="Action"> </abbr></th>
+                  <th><abbr title="Action"> </abbr></th>
                 </tr>
               </thead>
               <tbody>
-                <Row v-for="(item, apem) in members" :key="apem" :data="item" :index="apem" @gantiStatus="cari" />
+                <Row v-for="(item, apem) in members" :key="apem" :data="item" :index="apem" @done="handleCari" />
               </tbody>
             </table>
           </div>
@@ -196,15 +204,29 @@ export default {
       members: state => state.members
     }),
     kelompok() {
-      return this.user.id_kelompok == null ? 'belum ada kelompok' : 'data kelompok belum ada';
+      return this.user.member == undefined
+        ? 'tidak tertaut dengan member'
+        : this.user.member.id_kelompok == null
+        ? 'belum ada kelompok'
+        : 'data kelompok belum ada';
     },
     hasIdKop() {
-      return this.user.id_kelompok != null ? true : false;
+      return this.user.member == undefined ? false : true;
+    },
+    adminInCharge() {
+      return this.User.role == 'Admin' && this.User.status == 1 ? true : false;
     }
   },
   methods: {
-    ...mapActions('user', ['getUser', 'updateImage']),
+    ...mapActions('user', ['getUser', 'updateImage', 'unlinkToMember']),
     ...mapActions('member', ['getMember']),
+    pisahkan() {
+      this.loading = 'is-loading';
+      this.unlinkToMember().then(() => {
+        this.loading = '';
+        this.getUser();
+      });
+    },
     hasMember() {
       this.modalCari = true;
     },
@@ -305,6 +327,16 @@ table {
 }
 h1 {
   margin-bottom: 40px;
+}
+.has-button-right {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tombol {
+  display: inline-flex;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 // .edit-avatar {
 //   margin-left: -19px;

@@ -30,7 +30,7 @@
 
     <td>{{ kelompok }}</td>
     <td>
-      <a :class="['warna-tema', 'tombol', loading]" @click.prevent="tautkan" :disable="disable">
+      <a :class="['button', 'warna-tema', 'tombol', loading]" @click.prevent="tautkan" :disable="disable">
         <span class="icon-dibutton"><i class="fas fa-link"></i></span> Tautkan
       </a>
     </td>
@@ -104,6 +104,7 @@ export default {
   },
   methods: {
     ...mapActions('member', ['getMemberById']),
+    ...mapActions('user', ['getUser', 'linkToMember']),
     masuk() {
       this.selected = 'is-selected';
     },
@@ -111,16 +112,24 @@ export default {
       this.selected = '';
     },
     tautkan() {
-      console.log(this.data);
-    },
-    gantiStatus() {
-      let status = this.data.status == 1 ? 2 : this.data.status == 2 ? 3 : this.data.status == 3 ? 2 : 2;
-      let data = {
-        status: status,
-        id: this.data.id
-      };
-      this.$emit('gantiStatus', data);
+      let data = new FormData();
+      data.append('id', this.data.id);
+      this.loading = 'is-loading';
+      this.linkToMember(data).then(() => {
+        this.getUser();
+        this.$emit('done');
+        this.loading = '';
+      });
+      console.log(this.data.id);
     }
+    // gantiStatus() {
+    //   let status = this.data.status == 1 ? 2 : this.data.status == 2 ? 3 : this.data.status == 3 ? 2 : 2;
+    //   let data = {
+    //     status: status,
+    //     id: this.data.id
+    //   };
+    //   this.$emit('gantiStatus', data);
+    // }
   }
 };
 </script>

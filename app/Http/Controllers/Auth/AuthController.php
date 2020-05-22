@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Repositories\UserRepo;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -16,6 +18,15 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    protected $user=null;
+    public function __construct(UserRepo $user){
+        $this->user=$user;
+    }
+    public function getUser(Request $request){
+        $user=$request->user();
+        $user->load('member');
+        return response()->json($user);
+    }
     //register 
     public function register(Request $request){
         $request->validate([
@@ -125,5 +136,41 @@ class AuthController extends Controller
                 'status_code'   => 500
             ],500);
         } 
+    }
+
+    public function link_with_member(Request $request){
+
+        $data=$this->user->link_with($request);
+        if($data->status==200){
+
+            return response()->json([
+                'data'=>$data
+            ],$data->status);
+        
+        }else{
+
+            return response()->json([
+                'data'=>$data
+            ],$data->status);
+        }
+
+    }
+
+    public function unlink_with_member(){
+
+        $data=$this->user->unlink_with();
+        if($data->status==200){
+
+            return response()->json([
+                'data'=>$data
+            ],$data->status);
+        
+        }else{
+
+            return response()->json([
+                'data'=>$data
+            ],$data->status);
+        }
+
     }
 }

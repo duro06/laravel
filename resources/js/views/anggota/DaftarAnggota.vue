@@ -53,7 +53,6 @@
                   iconLeft="fa-phone"
                   placeholder="Nomor Telepon"
                   label="Telepon"
-                  tipe="number"
                   v-model="user.telepon"
                 ></input-label>
                 <input-label iconLeft="fa-map-marker-alt" placeholder="Alamat" label="Alamat" v-model="user.alamat"></input-label>
@@ -141,7 +140,7 @@ export default {
       loading: '',
       sLoad: '',
       search: '',
-      user: { name: '', alamat: '', telepon: '', id_koperasi: '', simPok: 0, id: '', status: '' },
+      user: { name: '', alamat: '', telepon: '', id_koperasi: '', simPok: '0', id: '', status: '' },
       meta: { first: 1, next: 2, prev: 1, last: 2 },
       levels: [5, 10, 25, 50]
     };

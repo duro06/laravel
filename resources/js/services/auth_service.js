@@ -38,5 +38,5 @@ export function updateImage(id, data) {
 }
 
 export function updateUserImage(id, data) {
-  httpFile().post(`/auth/update-image/${id}`, data);
+  httpFile().post(`/user/update-image/${id}`, data);
 }

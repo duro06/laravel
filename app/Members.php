@@ -12,7 +12,7 @@ class Members extends Model
 
     protected $attributes = [
         'image' => null,
-        'id_kelompok'=>null
+        'kelompok_id'=>null
     ];
 
     public function user(){

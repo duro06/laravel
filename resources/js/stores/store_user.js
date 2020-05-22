@@ -30,7 +30,7 @@ const actions = {
   },
   updateImage(comtext, id, data) {
     // return new Promise(resolve => {
-    httpFile().post(`/auth/update-image/${id}`, data);
+    httpFile().post(`/user/update-image/${id}`, data);
     // .then(res => {
     //   resolve(res);
     // });
@@ -39,9 +39,29 @@ const actions = {
   updateProfile(context, payload) {
     return new Promise(resolve => {
       http()
-        .put(`auth/update-profile/${payload.id}`, payload)
+        .put(`user/update-profile/${payload.id}`, payload)
         .then(res => {
           resolve(res);
+        });
+    });
+  },
+  linkToMember(context, payload) {
+    return new Promise(resolve => {
+      http()
+        .post('user/link-to-member', payload)
+        .then(res => {
+          resolve(res.data);
+          console.log(res);
+        });
+    });
+  },
+  unlinkToMember(context, payload) {
+    return new Promise(resolve => {
+      http()
+        .post('user/unlink-to-member', payload)
+        .then(res => {
+          resolve(res.data);
+          console.log(res);
         });
     });
   }

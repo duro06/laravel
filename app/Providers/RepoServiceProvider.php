@@ -3,22 +3,25 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\MemberRepo;
+use App\Repositories\UserRepo;
 
-class AppServiceProvider extends ServiceProvider
+class RepoServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register services.
      *
      * @return void
      */
     public function register()
     {
         //
-        // $this->app::bind('Repositories//MemberRepo');
+        $this->app::bind(MemberRepo);
+        $this->app::bind(UserRepo);
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      *
      * @return void
      */

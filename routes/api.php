@@ -14,28 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::group(['prefix' => 'auth'], function() {
     Route::group(['middleware'=>'auth:sanctum'], function(){
         Route::post('logout', 'Auth\AuthController@logout');
-        Route::put('update-profile/{user}', 'Auth\AuthController@update_profile');
-        Route::put('update-image/{user}', 'Auth\AuthController@update_image');
-
     });
 
     Route::post('register', 'Auth\AuthController@register'); // ini untuk alamat api/auth/register
     Route::post('login', 'Auth\AuthController@login');
 
-    
-    // Route::post('addtoreg', 'RegistrationController@addtoreg'); // ini alamat untuk user selain root dan admin (api/auth/addtoreg)
+});
 
-    // Route::group(['middleware' => 'auth:sanctum'], function () {
-    //     Route::get('logout', 'AuthController@logout');
-    //     Route::get('profile', 'AuthController@profile');
-    // });
+Route::group(['prefix'=>'user'], function(){
+    Route::group(['middleware'=>'auth:sanctum'], function(){
+        Route::get('/', 'Auth\AuthController@getUser');
+        Route::put('update-profile/{user}', 'Auth\AuthController@update_profile');
+        Route::put('update-image/{user}', 'Auth\AuthController@update_image');
+        Route::post('link-to-member', 'Auth\AuthController@link_with_member');
+        Route::post('unlink-to-member', 'Auth\AuthController@unlink_with_member');
+
+    });
 });
 
 Route::group(['prefix'=>'member'], function(){

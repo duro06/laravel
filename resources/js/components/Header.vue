@@ -146,7 +146,7 @@ export default {
       return [];
     },
     userImage() {
-      return this.$store.state.user.user.image;
+      return this.$store.getters['auth/storageUrl'] + this.$store.state.user.user.image;
     },
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
