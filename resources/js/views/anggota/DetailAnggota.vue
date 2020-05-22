@@ -8,7 +8,7 @@
               <!-- <figure class="image is-4by5"> -->
               <div class="avatar-profile">
                 <img class="avatar-ku" :src="displayImage" ref="displayAvatarImage" alt="avatar" />
-                <div class="edit-avatar">
+                <div class="edit-avatar" v-if="member.user_id == null">
                   <input type="file" ref="editAvatar" id="image" @change="attachImage" />
                   <label for="image"> Change Avatar </label>
                 </div>
@@ -199,10 +199,12 @@ export default {
         });
         this.user.image = response.data.image;
       } catch (error) {
-        this.flashMessage.error({
-          message: error.response.data.message,
-          time: 5000
-        });
+        if (error.response) {
+          this.flashMessage.error({
+            message: error.response.data.message,
+            time: 5000
+          });
+        }
       }
     }
   }

@@ -31,7 +31,7 @@
                   <td class="no-border has-button-right" v-if="hasIdKop">
                     {{ user.member.id_koperasi }}
                     <span v-if="hasIdKop && adminInCharge">
-                      <a :class="['button','warna-tema', 'tombol', loading]" @click.prevent="pisahkan" :disable="disable">
+                      <a :class="['button', 'warna-tema', 'tombol', loading]" @click.prevent="pisahkan" :disable="disable">
                         <span class="icon-dibutton"><i class="fas fa-unlink"></i></span> Pisahkan
                       </a>
                     </span>
