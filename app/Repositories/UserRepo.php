@@ -50,4 +50,12 @@ class UserRepo {
     
     }
   }
+  public function getAllUsers(){
+    $user = User::orderBy(request()->sortby, request()->sortbydesc)
+                ->when(request()->q, function($user) {
+                    $user = $user->where('name', 'LIKE', '%' . request()->q . '%');
+                })->paginate(request()->per_page);
+
+    return (object) ['status'=>200,'data'=>$user];
+  }
 }

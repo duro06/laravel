@@ -30,7 +30,7 @@ export default {
   name: 'pagination',
 
   computed: {
-    ...mapState('member', {
+    ...mapState('user', {
       current: state => state.meta.current,
       last: state => state.meta.last
     }),

@@ -35,6 +35,7 @@ Route::group(['prefix'=>'user'], function(){
         Route::put('update-image/{user}', 'Auth\AuthController@update_image');
         Route::post('link-to-member', 'Auth\AuthController@link_with_member');
         Route::post('unlink-to-member', 'Auth\AuthController@unlink_with_member');
+        Route::get('all', 'Users\UserController@getAllUsers');
 
     });
 });

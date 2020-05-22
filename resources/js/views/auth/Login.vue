@@ -58,14 +58,14 @@
                     </p>
                   </div>
 
-                  <div class="field fadeInUp level">
+                  <!-- <div class="field fadeInUp level">
                     <div class="level-item has-text-centered ">
                       <input type="checkbox" v-model="user.remember" />
                       <label class="checkbox is-size-7 ">
                         Remember me
                       </label>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="field fadeInUp">
                     <p class="control">
                       <button

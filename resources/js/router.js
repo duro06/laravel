@@ -49,6 +49,15 @@ const routes = [
     }
   },
   {
+    path: '/user-list',
+    name: 'user-list',
+    component: () => import(/* webpackChunkName: "user-list" */ './views/user/ListUser.vue'),
+    meta: {
+      name: 'user-list',
+      loggedIn: true
+    }
+  },
+  {
     path: '/anggota',
     name: 'anggota',
     component: () => import(/* webpackChunkName: "daftar-anggota" */ './views/anggota/DaftarAnggota.vue'),

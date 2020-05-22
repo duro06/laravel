@@ -42,13 +42,16 @@
             <a class="navbar-link menu-text-icon" exact>
               Menu
             </a>
-
+            <!--  -->
             <div class="navbar-dropdown">
-              <router-link to="" class="navbar-item menu-text-icon" exact>
+              <router-link to="/user-list" v-if="adminInCharge" class="navbar-item menu-text-icon" exact>
+                List User
+              </router-link>
+              <router-link to="/contact" class="navbar-item menu-text-icon" exact>
                 Contact
               </router-link>
               <hr class="navbar-divider" />
-              <router-link to="" class="navbar-item menu-text-icon" exact>
+              <router-link to="/issue" class="navbar-item menu-text-icon" exact>
                 Report an issue
               </router-link>
             </div>
@@ -142,11 +145,16 @@ export default {
     };
   },
   computed: {
+    adminInCharge() {
+      return this.$store.state.user.user.role == 'Admin' && this.$store.state.user.user.status == 1 ? true : false;
+    },
     PesanNotif() {
       return [];
     },
     userImage() {
-      return this.$store.getters['auth/storageUrl'] + this.$store.state.user.user.image;
+      return this.$store.state.user.user.image == null
+        ? this.$store.getters['auth/storageUrl'] + `users_images/nouser.png`
+        : this.$store.getters['auth/storageUrl'] + this.$store.state.user.user.image;
     },
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
