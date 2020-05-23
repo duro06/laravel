@@ -45,7 +45,7 @@
               </tbody>
             </table>
           </div>
-          <button class="button warna-tema" style="margin-top:20px" @click="editProfile">
+          <button class="button warna-tema" style="margin-top:20px" @click="editProfile" v-if="member.user_id == null">
             <span class="icon-dibutton"><i class="fas fa-pencil-alt"></i></span> Edit
           </button>
         </div>
@@ -55,7 +55,7 @@
             <tbody>
               <tr>
                 <th class="no-border">Simpanan Pokok</th>
-                <td class="no-border">{{ member.simpanan_pokok }}</td>
+                <td class="no-border">{{ simpananPokok }}</td>
               </tr>
               <tr>
                 <th class="no-border">Simpanan Wajib</th>
@@ -137,6 +137,9 @@ export default {
     }),
     kelompok() {
       return this.member.id_kelompok == null ? 'belum ada kelompok' : 'data kelompok belum ada';
+    },
+    simpananPokok() {
+      return this.member.simpanan_pokok != 0 ? 'Rp ' + new Intl.NumberFormat().format(this.member.simpanan_pokok) : 0;
     }
   },
   methods: {

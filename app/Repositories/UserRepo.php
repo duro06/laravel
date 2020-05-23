@@ -17,6 +17,9 @@ class UserRepo {
     
     $member->user_id=$user->id;
     $member->image=$user->image;
+    $member->alamat=$user->alamat;
+    $member->telepon=$user->telepon;
+    $member->role=$user->role;
     
     $user->member_id=$member->id;
     
@@ -37,6 +40,7 @@ class UserRepo {
     
     $member->user_id=null;
     $member->image=null;
+    $member->role='anggota';
     
     $user->member_id=null;
     

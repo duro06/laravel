@@ -65,7 +65,7 @@
             <tbody>
               <tr>
                 <th class="no-border">Simpanan Pokok</th>
-                <td class="no-border">{{ user.member.simpanan_pokok }}</td>
+                <td class="no-border">{{ simpananPokok }}</td>
               </tr>
               <tr>
                 <th class="no-border">Simpanan Wajib</th>
@@ -215,6 +215,9 @@ export default {
     },
     adminInCharge() {
       return this.User.role == 'Admin' && this.User.status == 1 ? true : false;
+    },
+    simpananPokok() {
+      return this.user.member.simpanan_pokok != 0 ? 'Rp ' + new Intl.NumberFormat().format(this.user.member.simpanan_pokok) : 0;
     }
   },
   methods: {

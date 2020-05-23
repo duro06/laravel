@@ -80,11 +80,14 @@ export default {
     },
     input: {
       get() {
-        let value = this.value;
-        return value;
+        let value = this.value.split('.');
+        let decimal = typeof value[1] !== 'undefined' ? '.' + value[1] : '';
+
+        return Number(value[0]).toLocaleString('en-GB') + decimal;
+        // return value;
       },
       set(newValue) {
-        this.$emit('input', newValue);
+        this.$emit('input', newValue.replace(/,/g, ''));
       }
     }
   },

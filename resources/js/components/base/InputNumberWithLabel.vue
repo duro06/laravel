@@ -26,7 +26,7 @@
 export default {
   name: 'base-input-label',
   components: {
-    inputValidate: () => import(/* webpackChunkName: "input" */ './InputValidate')
+    inputValidate: () => import(/* webpackChunkName: "input" */ './InputNumber')
   },
   computed: {
     data: {

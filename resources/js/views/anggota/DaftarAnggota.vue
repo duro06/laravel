@@ -63,13 +63,13 @@
                   label="ID Anggota"
                   v-model="user.id_koperasi"
                 ></input-label>
-                <input-label
+                <input-number
                   pesan="Simpanan pokok kosongi jika memang belum ada"
                   label="Simpanan Pokok"
                   iconLeft="fa-money-check-alt"
                   placeholder="Simpanan Pokok"
                   v-model="user.simPok"
-                ></input-label>
+                ></input-number>
               </div>
             </div>
           </section>
@@ -94,13 +94,13 @@
             <div class="masuk ">
               <div class="control">
                 <p>{{ statusText }}</p>
-                <input-label
+                <input-number
                   v-if="newStatus == 2"
                   label="Simpanan Pokok"
                   iconLeft="fa-money-check-alt"
                   placeholder="Simpanan Pokok"
                   v-model="user.simPok"
-                ></input-label>
+                ></input-number>
               </div>
             </div>
           </section>
@@ -128,7 +128,8 @@ export default {
     Paginate: () => import(/* webpackChunkName: "paginate" */ '../../components/base/Pagination'),
     Pilih: () => import(/* webpackChunkName: "select" */ '../../components/base/Select'),
     Row: () => import(/* webpackChunkName: "row" */ './Row'),
-    'input-label': () => import(/* webpackChunkName: "input" */ '../../components/base/InputValidate')
+    'input-label': () => import(/* webpackChunkName: "input" */ '../../components/base/InputValidate'),
+    'input-number': () => import(/* webpackChunkName: "input-number" */ '../../components/base/InputNumber')
   },
   data() {
     return {
@@ -189,6 +190,7 @@ export default {
           this.showModal = false;
           this.changeStatus(status);
           this.getMember();
+          this.user = { name: '', alamat: '', telepon: '', id_koperasi: '', simPok: '0', id: '', status: '' };
         })
         .catch(() => {
           this.showModal = false;
