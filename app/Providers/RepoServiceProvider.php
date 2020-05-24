@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\MemberRepo;
 use App\Repositories\UserRepo;
+use App\Repositories\HakAnggotaRepo;
 
 class RepoServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,7 @@ class RepoServiceProvider extends ServiceProvider
         //
         $this->app::bind(MemberRepo);
         $this->app::bind(UserRepo);
+        $this->app::bind(HakAnggotaRepo);
     }
 
     /**

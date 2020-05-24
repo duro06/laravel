@@ -19,6 +19,7 @@ class CreateTabelPerubahanJasa extends Migration
             $table->date('akhir_berlaku');
             $table->tinyInteger('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

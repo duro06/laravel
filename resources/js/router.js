@@ -49,6 +49,15 @@ const routes = [
     }
   },
   {
+    path: '/dana-anggota',
+    name: 'dana-anggota',
+    component: () => import(/* webpackChunkName: "dana-anggota" */ './views/anggota/DanaAnggota.vue'),
+    meta: {
+      name: 'dana-anggota',
+      loggedIn: true
+    }
+  },
+  {
     path: '/user-list',
     name: 'user-list',
     component: () => import(/* webpackChunkName: "user-list" */ './views/user/ListUser.vue'),

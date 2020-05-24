@@ -50,3 +50,14 @@ Route::group(['prefix'=>'member'], function(){
         Route::put('update-profile/{member}', 'Members\MemberController@update_profile');
     });
 });
+
+Route::group(['prefix'=>'admin'], function(){
+    Route::group(['middleware'=>'auth:sanctum'], function(){
+        Route::post('add-hak-anggota', 'Members\HakMemberController@addHak');
+        Route::get('get-data', 'Members\HakMemberController@getData');
+        Route::post('edit-data', 'Members\HakMemberController@editData');
+        Route::post('delete-data', 'Members\HakMemberController@deleteData');
+        Route::post('tempat-sampah', 'Members\HakMemberController@sampah');
+        Route::post('kembalikan', 'Members\HakMemberController@restoreData');
+    });
+});

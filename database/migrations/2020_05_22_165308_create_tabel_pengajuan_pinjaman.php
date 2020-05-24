@@ -15,7 +15,7 @@ class CreateTabelPengajuanPinjaman extends Migration
     {
         Schema::create('pengajuan_pinjaman', function (Blueprint $table) {
             $table->id();
-            $table->string('anggota_id');
+            $table->string('member_id');
             $table->string('kelompok_id');
             $table->float('jumlah',8,2);
             $table->string('status');

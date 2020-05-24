@@ -19,6 +19,7 @@ class CreateTabelTipeTransaksi extends Migration
             $table->string('transaksi_id');
             $table->string('dana_anggota_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

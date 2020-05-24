@@ -17,6 +17,7 @@ class CreateTabelJenisPinjaman extends Migration
             $table->id();
             $table->string('name');// misal mingguan / bulanan
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

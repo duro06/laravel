@@ -23,9 +23,10 @@
           <div class="mega-ul navbar-menu">
             <div class="navbar-item has-dropdown is-hoverable" v-if="loggedIn">
               <a href="javascript:void(0)" class="navbar-link menu-text-icon" exact>
-                <div class="menu-text-icon">Daftar Anggota</div>
+                <div class="menu-text-icon">Anggota</div>
               </a>
               <div class="navbar-dropdown">
+                <hr class="navbar-divider" />
                 <a href="javascript:void(0)" class="navbar-item menu-text-icon" @click.prevent="anggotaAktif" exact>
                   <div class="menu-text-icon">Anggota Aktif</div>
                 </a>
@@ -35,6 +36,8 @@
                 <a href="javascript:void(0)" class="navbar-item menu-text-icon" @click.prevent="anggotaBerhenti" exact>
                   <div class="menu-text-icon">Anggota Berhenti</div>
                 </a>
+
+                <hr class="navbar-divider" />
               </div>
             </div>
           </div>
@@ -47,8 +50,8 @@
               <router-link to="/user-list" v-if="adminInCharge" class="navbar-item menu-text-icon" exact>
                 List User
               </router-link>
-              <router-link to="/contact" class="navbar-item menu-text-icon" exact>
-                Contact
+              <router-link to="/dana-anggota" v-if="adminInCharge" class="navbar-item menu-text-icon" exact>
+                Dana Anggota
               </router-link>
               <hr class="navbar-divider" />
               <router-link to="/issue" class="navbar-item menu-text-icon" exact>

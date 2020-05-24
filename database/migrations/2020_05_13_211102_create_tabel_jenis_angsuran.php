@@ -17,6 +17,7 @@ class CreateTabelJenisAngsuran extends Migration
             $table->id();
             $table->string('name');// misal, bulanan, minnguan, tanggung renteng?
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

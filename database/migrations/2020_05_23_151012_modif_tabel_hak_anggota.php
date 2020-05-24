@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTabelDanaAnggota extends Migration
+class ModifTabelHakAnggota extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,7 @@ class CreateTabelDanaAnggota extends Migration
      */
     public function up()
     {
-        Schema::create('dana_anggota', function (Blueprint $table) {
-            $table->id();
-            $table->string('jumlah');
-            $table->string('member_id');
-            $table->string('hak_anggota_id');
-            $table->string('keterangan');
-            $table->timestamps();
+        Schema::table('hak_anggota', function (Blueprint $table) {            
             $table->softDeletes();
         });
     }
@@ -31,6 +25,8 @@ class CreateTabelDanaAnggota extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dana_anggota');
+        Schema::table('hak_anggota', function (Blueprint $table) {
+            //
+        });
     }
 }
