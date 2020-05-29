@@ -10,7 +10,8 @@ const state = () => ({
   sortBy: 'created_at', //default sorting
   sortByDesc: true,
   per_page: 20, //UNTUK MENCATAT PER PAGE NYA,
-  search: ''
+  search: '',
+  mode: ''
 });
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
   },
   delHakAnggota(state) {
     state.hakAnggota = [];
+  },
+  changeMode(state, payload) {
+    state.mode = payload;
   }
 };
 
@@ -78,6 +82,7 @@ const actions = {
         .then(res => {
           console.log(res.data);
           commit('setHakAnggota', res.data.data.data.data);
+          commit('changeMode', '');
           resolve(res.data);
         });
     });
@@ -101,6 +106,7 @@ const actions = {
         .then(res => {
           console.log(res.data.data);
           commit('setHakAnggota', res.data.data.data);
+          commit('changeMode', 'trash');
           resolve(res.data);
         });
     });

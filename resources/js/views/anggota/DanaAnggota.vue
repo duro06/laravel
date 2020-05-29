@@ -2,12 +2,19 @@
   <div class="dana-anggota">
     <h1 class="judul"><B>Daftar Hak Anggota</B></h1>
     <div class="field">
-      <button class="button warna-tema" @click="add">
-        <span class="icon-dibutton"><i class="fa fa-plus-circle"></i></span> Input Hak Anggota
-      </button>
-      <button class="button is-danger" @click="trash" v-if="adminInCharge">
-        <span class="icon-dibutton"><i class="fa fa-trash"></i></span> Tempat sampah
-      </button>
+      <div class="" v-if="mode == ''">
+        <button class="button warna-tema" @click="add">
+          <span class="icon-dibutton"><i class="fa fa-plus-circle"></i></span> Input Hak Anggota
+        </button>
+        <button class="button is-danger" :class="loading" @click="trash" v-if="adminInCharge">
+          <span class="icon-dibutton"><i class="fa fa-trash"></i></span> Tempat sampah
+        </button>
+      </div>
+      <div class="" v-if="mode == 'trash'">
+        <button class="button is-info" :class="loading" @click="normal" v-if="adminInCharge">
+          <span class="icon-dibutton"><i class="fa fa-tv"></i></span> Data Aktif
+        </button>
+      </div>
     </div>
     <table class="table is-hoverable is-fullwidth" v-if="hakAnggota.length">
       <thead>
@@ -96,7 +103,8 @@ export default {
   },
   computed: {
     ...mapState('dana', {
-      hakAnggota: state => state.hakAnggota
+      hakAnggota: state => state.hakAnggota,
+      mode: state => state.mode
     }),
     ...mapState('user', {
       User: state => state.user
@@ -108,7 +116,16 @@ export default {
   methods: {
     ...mapActions('dana', ['addHakAnggota', 'getHakAnggota', 'getDeletedHak', 'editData', 'deleteData']),
     trash() {
-      this.getDeletedHak();
+      this.loading = 'is-loading';
+      this.getDeletedHak().then(() => {
+        this.loading = '';
+      });
+    },
+    normal() {
+      this.loading = 'is-loading';
+      this.getHakAnggota().then(() => {
+        this.loading = '';
+      });
     },
     add() {
       this.addHak = true;

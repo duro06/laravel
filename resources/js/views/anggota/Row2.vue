@@ -5,7 +5,7 @@
     <!-- </tr> -->
     <td class="has-text-right">
       <div v-if="!data.deleted_at">
-        <a :class="['is-info', 'button', 'button-ditabel', loading]" @click.prevent="edit" :disable="disable">
+        <a class="is-info button button-ditabel" @click.prevent="edit" :disable="disable">
           <span class="icon-dibutton"><i class="fas fa-pencil-alt"></i></span> Edit
         </a>
         <a :class="['is-danger', 'button', 'button-ditabel', loadingDel]" @click.prevent="hapus" :disable="disable">
