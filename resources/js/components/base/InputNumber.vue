@@ -10,7 +10,7 @@
         </p>
         <span class="pemberitahuan" v-if="pesan"> <B>*</B> {{ pesan }} </span>
         <p class="control has-icons-left has-icons-right">
-          <input @change="validate" :class="['input', mailClass]" :type="tipe" :placeholder="placeholder" data-lpignore="true" v-model="input" />
+          <input :class="['input', mailClass]" :type="tipe" :placeholder="placeholder" data-lpignore="true" v-model="input" />
           <span v-if="iconLeft" class="icon is-small is-left">
             <i :class="['fas', iconLeft]"></i>
           </span>
@@ -68,8 +68,7 @@ export default {
     return {
       mailClass: '',
       visible: 'hidden',
-      message: '',
-      reg: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
+      message: ''
     };
   },
   computed: {
@@ -87,9 +86,15 @@ export default {
         // return value;
       },
       set(newValue) {
-        this.$emit('input', newValue.replace(/,/g, ''));
+        // this.$emit('input', newValue.replace(/,/g, ''));
+        this.$emit('input', newValue.replace(/[^0-9]/g, ''));
       }
     }
+  },
+  watch: {
+    // input() {
+    //   this.input = this.input.replace(/[^0-9]/g, '');
+    // }
   },
   methods: {
     mailString(kelas, visib, pesan) {

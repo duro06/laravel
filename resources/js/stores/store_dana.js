@@ -50,6 +50,15 @@ const actions = {
         });
     });
   },
+  restoreData(context, payload) {
+    return new Promise(resolve => {
+      http()
+        .post('admin/kembalikan', payload)
+        .then(res => {
+          resolve(res);
+        });
+    });
+  },
   getHakAnggota({ commit, state }, payload) {
     let search = typeof payload != 'undefined' ? payload : '';
     let sorting = state.sortByDesc ? 'DESC' : 'ASC';
@@ -69,6 +78,29 @@ const actions = {
         .then(res => {
           console.log(res.data);
           commit('setHakAnggota', res.data.data.data.data);
+          resolve(res.data);
+        });
+    });
+  },
+  getDeletedHak({ commit, state }, payload) {
+    let search = typeof payload != 'undefined' ? payload : '';
+    let sorting = state.sortByDesc ? 'DESC' : 'ASC';
+    let params = {
+      params: {
+        page: state.page,
+        per_page: state.per_page,
+        q: search,
+        sortby: state.sortBy,
+        sortbydesc: sorting,
+        ss: state.status
+      }
+    };
+    return new Promise(resolve => {
+      http()
+        .get('admin/tempat-sampah', params)
+        .then(res => {
+          console.log(res.data.data);
+          commit('setHakAnggota', res.data.data.data);
           resolve(res.data);
         });
     });

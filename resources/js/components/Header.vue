@@ -232,6 +232,6 @@ export default {
   margin-left: 0px;
 }
 .navbar-item img {
-  max-height: 2rem;
+  max-height: 2.2rem;
 }
 </style>

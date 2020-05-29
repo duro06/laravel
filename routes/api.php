@@ -57,7 +57,7 @@ Route::group(['prefix'=>'admin'], function(){
         Route::get('get-data', 'Members\HakMemberController@getData');
         Route::post('edit-data', 'Members\HakMemberController@editData');
         Route::post('delete-data', 'Members\HakMemberController@deleteData');
-        Route::post('tempat-sampah', 'Members\HakMemberController@sampah');
+        Route::get('tempat-sampah', 'Members\HakMemberController@sampah');
         Route::post('kembalikan', 'Members\HakMemberController@restoreData');
     });
 });

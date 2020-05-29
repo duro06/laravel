@@ -43,8 +43,8 @@ class HakMemberController extends Controller
         return response()->json(['data'=>$data],$data->status);
     }
 
-    public function restoreData(){
-        $data=$this->member->restore_data();
+    public function restoreData(Request $request){
+        $data=$this->member->restore_data($request);
 
         return response()->json(['data'=>$data],$data->status);
     }

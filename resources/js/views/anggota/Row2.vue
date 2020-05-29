@@ -4,12 +4,19 @@
     <td>{{ data.nama }}</td>
     <!-- </tr> -->
     <td class="has-text-right">
-      <a :class="['is-info', 'button', 'button-ditabel', loading]" @click.prevent="edit" :disable="disable">
-        <span class="icon-dibutton"><i class="fas fa-pencil-alt"></i></span> Edit
-      </a>
-      <a :class="['is-danger', 'button', 'button-ditabel', loadingDel]" @click.prevent="hapus" :disable="disable">
-        <span class="icon-dibutton"><i class="fas fa-trash-alt"></i></span> Hapus
-      </a>
+      <div v-if="!data.deleted_at">
+        <a :class="['is-info', 'button', 'button-ditabel', loading]" @click.prevent="edit" :disable="disable">
+          <span class="icon-dibutton"><i class="fas fa-pencil-alt"></i></span> Edit
+        </a>
+        <a :class="['is-danger', 'button', 'button-ditabel', loadingDel]" @click.prevent="hapus" :disable="disable">
+          <span class="icon-dibutton"><i class="fas fa-trash-alt"></i></span> Hapus
+        </a>
+      </div>
+      <div v-if="data.deleted_at">
+        <a :class="['is-danger', 'button', 'button-ditabel', loadingDel]" @click.prevent="restore" :disable="disable">
+          <span class="icon-dibutton"><i class="fas fa-trash-restore"></i></span> Kembalikan
+        </a>
+      </div>
     </td>
   </tr>
 </template>
@@ -40,7 +47,7 @@ export default {
   },
   computed: {},
   methods: {
-    ...mapActions('dana', ['getHakAnggota', 'editData', 'deleteData']),
+    ...mapActions('dana', ['getHakAnggota', 'editData', 'deleteData', 'restoreData']),
     masuk() {
       this.selected = 'is-selected';
     },
@@ -61,6 +68,18 @@ export default {
         this.loadingDel = '';
       });
       this.$emit('delete', this.data);
+    },
+    restore() {
+      this.loadingDel = 'is-loading';
+      this.disable = true;
+      let data = new FormData();
+      data.append('id', this.data.id);
+      this.restoreData(data).then(() => {
+        this.disable = false;
+        this.getHakAnggota();
+        this.loadingDel = '';
+      });
+      this.$emit('restore', this.data);
     }
   }
 };

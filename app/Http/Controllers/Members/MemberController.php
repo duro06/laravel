@@ -119,6 +119,9 @@ class MemberController extends Controller
             $id_koperasi = $value+1;
             $koperasi=strlen($value);
             switch ($koperasi) {
+                case 0:
+                    $id_kop='KP0000'.$id_koperasi;
+                    break;
                 case 1:
                     $id_kop='KP0000'.$id_koperasi;
                     break;
@@ -142,6 +145,7 @@ class MemberController extends Controller
 
         }
 
+        // return $koperasi;
         return $id_kop;
 
     }

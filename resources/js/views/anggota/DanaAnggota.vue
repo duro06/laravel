@@ -5,6 +5,9 @@
       <button class="button warna-tema" @click="add">
         <span class="icon-dibutton"><i class="fa fa-plus-circle"></i></span> Input Hak Anggota
       </button>
+      <button class="button is-danger" @click="trash" v-if="adminInCharge">
+        <span class="icon-dibutton"><i class="fa fa-trash"></i></span> Tempat sampah
+      </button>
     </div>
     <table class="table is-hoverable is-fullwidth" v-if="hakAnggota.length">
       <thead>
@@ -17,6 +20,7 @@
         <Row v-for="(item, apem) in hakAnggota" :key="apem" :data="item" :index="apem" @edit="edit" @delete="deleteD" :load="loading" />
       </tbody>
     </table>
+    <div class="kosong has-text-centered" v-if="!hakAnggota.length">Tidak ada data</div>
     <transition name="modal">
       <Modal v-if="addHak" @close="handleHak" class="modal">
         <header slot="header" class="modal-card-head">
@@ -93,10 +97,19 @@ export default {
   computed: {
     ...mapState('dana', {
       hakAnggota: state => state.hakAnggota
-    })
+    }),
+    ...mapState('user', {
+      User: state => state.user
+    }),
+    adminInCharge() {
+      return this.User.role == 'Admin' && this.User.status == 1 ? true : false;
+    }
   },
   methods: {
-    ...mapActions('dana', ['addHakAnggota', 'getHakAnggota', 'editData', 'deleteData']),
+    ...mapActions('dana', ['addHakAnggota', 'getHakAnggota', 'getDeletedHak', 'editData', 'deleteData']),
+    trash() {
+      this.getDeletedHak();
+    },
     add() {
       this.addHak = true;
     },
@@ -121,6 +134,7 @@ export default {
         this.disable = false;
         this.loading = '';
         this.addHak = false;
+        this.nama = '';
         this.getHakAnggota();
       });
     },
@@ -134,6 +148,7 @@ export default {
         this.disable = false;
         this.loading = '';
         this.editHak = false;
+        this.nama = '';
         this.getHakAnggota();
       });
     },

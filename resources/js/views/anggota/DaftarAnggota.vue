@@ -99,6 +99,7 @@
                   label="Simpanan Pokok"
                   iconLeft="fa-money-check-alt"
                   placeholder="Simpanan Pokok"
+                  @input="setInput"
                   v-model="user.simPok"
                 ></input-number>
               </div>
@@ -166,6 +167,9 @@ export default {
   },
   methods: {
     ...mapActions('member', ['addMember', 'getMember', 'resetStatus', 'updateStatus', 'changePage', 'changePerPage', 'changeStatus']),
+    setInput(value) {
+      this.user.simPok = value;
+    },
     masuk() {
       this.selected = 'is-selected';
     },
@@ -190,7 +194,7 @@ export default {
           this.showModal = false;
           this.changeStatus(status);
           this.getMember();
-          this.user = { name: '', alamat: '', telepon: '', id_koperasi: '', simPok: '0', id: '', status: '' };
+          this.user = { name: '', alamat: '', telepon: '', id_koperasi: '', simPok: '', id: '', status: '' };
         })
         .catch(() => {
           this.showModal = false;
@@ -209,8 +213,8 @@ export default {
     },
     ganti(value) {
       console.log(value);
-      if (value == 2) {
-        this.user.simPok = 50000;
+      if (value.status == 2) {
+        this.user.simPok = '50000';
       }
       this.newStatus = value.status;
       this.user.status = value.status;
@@ -231,6 +235,7 @@ export default {
           this.modalStatus = false;
           this.resetStatus();
           this.getMember();
+          this.user.simPok = '0';
           this.flashMessage.success({
             message: res.data.message,
             time: 5000
